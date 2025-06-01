@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_whatsapp_connector_ai_config_tree">
+        <field name="name">acrux.chat.ai.config.tree</field>
+        <field name="model">acrux.chat.ai.config</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle" />
+                <field name="active" widget="boolean_toggle" />
+                <field name="provider" />
+                <field name="name" />
+                <field name="operation_id" />
+                <field name="ai_model_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_ai_config_form">
+        <field name="name">acrux.chat.ai.config.form</field>
+        <field name="model">acrux.chat.ai.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Definition">
+                            <field name="name" />
+                            <field name="company_id" />
+                            <field name="provider" />
+                            <field name="active" widget="boolean_toggle" />
+                            <field name="sequence" />
+                        </group>
+                        <group string="Test">
+                            <button name="execute_test_ui" type="object"
+                                string="Test" class="btn-primary" colspan="2" />
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Config" name="assign_page">
+                            <group>
+                                <group string="AI Config">
+                                    <field name="auth_token" password="True" />
+                                    <label for="command"
+                                        invisible="operation_key in ['audio_transcriptions', 'chat_completions']" />
+                                    <div invisible="operation_key in ['audio_transcriptions', 'chat_completions']">
+                                        <field name="command" />
+                                        <p class="text-muted">
+                                            Command sent to the model, must specify what to do, for example: translate to Spanish.
+                                        </p>
+                                    </div>
+                                    <label for="advance_command"
+                                        invisible="operation_key in ['audio_transcriptions', 'chat_completions']" />
+                                    <div
+                                        invisible="operation_key in ['audio_transcriptions', 'chat_completions']">
+                                        <field name="advance_command" />
+                                        <p class="text-muted">
+                                            Python code to extend command. You can use datetime, pytz, user, now, self and kwargs.
+                                            And must return result.
+                                            For example: result=self.command % self.user.name
+                                        </p>
+                                    </div>
+                                    <label for="operation_id" />
+                                    <div>
+                                        <field name="operation_id" widget="selection" options="{'no_create': True, 'no_open': true}" />
+                                        <p class="text-muted">
+                                            <field name="operation_help" />
+                                            <field name="operation_key" invisible="1" />
+                                        </p>
+                                    </div>
+                                    <label for="ai_model_id" />
+                                    <div>
+                                        <field name="ai_model_id" widget="selection" options="{'no_create': True, 'no_open': true}" />
+                                        <p class="text-muted">
+                                            AI Model to use, please review documentation for using and pricing.
+                                        </p>
+                                    </div>
+                                    <label for="add_roles"
+                                        invisible="operation_key in ['audio_transcriptions']" />
+                                    <div invisible="operation_key in ['audio_transcriptions']">
+                                        <field name="add_roles" widget="boolean_toggle" />
+                                        <p class="text-muted">
+                                            Add role Assistant or Client to message.
+                                        </p>
+                                    </div>
+                                    <label for="message_number"
+                                        invisible="operation_key in ['audio_transcriptions']" />
+                                    <div invisible="operation_key in ['audio_transcriptions']">
+                                        <field name="message_number" />
+                                        <p class="text-muted">
+                                            Number of message copied from conversation.
+                                        </p>
+                                    </div>
+                                    <field name="only_incoming" widget="boolean_toggle"
+                                        invisible="message_number == 0" />
+                                </group>
+                                <group string="AI Parameters">
+                                    <label for="temperature" />
+                                    <div>
+                                        <field name="temperature" />
+                                        <p class="text-muted">
+                                            Control randomness and creativity in text generation.
+                                            A high value produces more random and creative text,
+                                            while a low value produces more coherent and predictable text.
+                                        </p>
+                                    </div>
+                                    <label for="top_p"
+                                        invisible="operation_key in ['audio_transcriptions']" />
+                                    <div invisible="operation_key in ['audio_transcriptions']">
+                                        <field name="top_p" />
+                                        <p class="text-muted">
+                                            Control the diversity in text generation.
+                                            Limits the number of tokens considered when generating text.
+                                            A low value may lead to more coherent and predictable responses.
+                                        </p>
+                                    </div>
+                                    <label for="max_tokens"
+                                        invisible="operation_key in ['audio_transcriptions', 'edits']" />
+                                    <div invisible="operation_key in ['audio_transcriptions', 'edits']">
+                                        <field name="max_tokens" />
+                                        <p class="text-muted">
+                                            Controls the maximum length in tokens of the response generated by the model.
+                                            In simple terms, it limits the number of words that a response can have.
+                                            This value depends on the model being used, so it's important to review the documentation.
+                                        </p>
+                                    </div>
+                                    <label for="presence_penalty"
+                                        invisible="operation_key in ['audio_transcriptions', 'edits']" />
+                                    <div invisible="operation_key in ['audio_transcriptions', 'edits']">
+                                        <field name="presence_penalty" />
+                                        <p class="text-muted">
+                                            Controls model's preference for including or not including words that appear in the input context.
+                                            A high value makes it less likely to repeat the words that are already present in the context.
+                                        </p>
+                                    </div>
+                                    <label for="presence_penalty"
+                                        invisible="operation_key in ['audio_transcriptions', 'edits']" />
+                                    <div invisible="operation_key in ['audio_transcriptions', 'edits']">
+                                        <field name="frequency_penalty" />
+                                        <p class="text-muted">
+                                            Controls model's preference for generating less common words.
+                                            A high value produces more creative and original responses,
+                                            while a low value makes the responses more predictable and common.
+                                        </p>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_connector_ai_config_search" model="ir.ui.view">
+        <field name="name">acrux.chat.ai.config.search</field>
+        <field name="model">acrux.chat.ai.config</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="operation_id" />
+                <field name="ai_model_id" />
+                <field name="provider" />
+                <filter string="All" name="all" domain="['|', ('active', '=', False), ('active', '=', True)]" />
+                <group string="Group by">
+                    <filter name="group_provider" string="Provider" context="{'group_by':'provider'}" />
+                    <filter name="group_ai_model_id" string="AI Model" context="{'group_by':'ai_model_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="view_whatsapp_connector_ai_config_action">
+        <field name="name">AI Config</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">acrux.chat.ai.config</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_all': 1}</field>
+    </record>
+</odoo>

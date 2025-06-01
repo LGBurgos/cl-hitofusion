@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <record id="acrux_image_resize" forcecreate="True" model="ir.config_parameter">
+        <field name="key">acrux_image_resize</field>
+        <field name="value">500</field>
+    </record>
+
+    <record id="acrux_max_weight_kb" forcecreate="True" model="ir.config_parameter">
+        <field name="key">acrux_max_weight_kb</field>
+        <field name="value">2000</field>
+    </record>
+
+    <record id="chatroom_tab_orientation" forcecreate="True" model="ir.config_parameter">
+        <field name="key">chatroom_tab_orientation</field>
+        <field name="value">vertical</field>
+    </record>
+
+    <!-- default.answer -->
+    <record id="data_default_answer_hello" model="acrux.chat.default.answer">
+        <field name="name">Hello...</field>
+        <field name="ttype">text</field>
+        <field name="text">Hello, how can I help you?</field>
+    </record>
+
+    <record id="data_default_answer_location" model="acrux.chat.default.answer">
+        <field name="name">Location of my company</field>
+        <field name="ttype">location</field>
+        <field name="text">My Company
+My address
+41.9029468, 12.4544835</field>
+    </record>
+
+    <record id="data_default_answer_regards" model="acrux.chat.default.answer">
+        <field name="name">Regards</field>
+        <field name="ttype">code</field>
+        <field name="text"># Python code
+# Use: datetime - conversation_id - pytz - user - now
+# return: result
+text = 'Good morning' if now.hour &lt;= 12 else 'Good afternoon'
+name = conversation_id.name if conversation_id else ''
+result = '%s %s\nMy name is %s, How can I help you?' % (text, name, user.name)
+        </field>
+    </record>
+
+    <function name="init_free_test_record" model="acrux.chat.connector"/>
+
+    <record id="chatroom_email_template_partner_1" model="mail.template">
+        <field name="name">ChatRoom: Ask Address</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="body_html"><![CDATA[<p>Hello <t t-out="object.name"></t><br>
+Can you please send me your address and email?</p>]]></field>
+        <field name="lang">{{object.company_id.partner_id.lang}}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="chatroom_email_template_partner_2" model="mail.template">
+        <field name="name">ChatRoom: Opening hours</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="body_html"><![CDATA[<p>Hello <t t-out="object.name"></t><br>
+Our opening hours are from 09:00 AM to 17:00 PM.</p>]]></field>
+        <field name="lang">{{object.company_id.partner_id.lang}}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="chatroom_email_template_chat_1" model="mail.template">
+        <field name="name">ChatRoom: Ask Address</field>
+        <field name="model_id" ref="whatsapp_connector.model_acrux_chat_conversation"/>
+        <field name="body_html"><![CDATA[<p>Hello <t t-out="object.name"></t><br>
+Can you please send me your address and email?</p>]]></field>
+        <field name="lang">{{user.lang}}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="chatroom_email_template_chat_2" model="mail.template">
+        <field name="name">ChatRoom: Opening hours</field>
+        <field name="model_id" ref="whatsapp_connector.model_acrux_chat_conversation"/>
+        <field name="body_html"><![CDATA[<p>Hello <t t-out="object.name"></t><br>
+Our opening hours are from 09:00 AM to 17:00 PM.</p>]]></field>
+        <field name="lang">{{user.lang}}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- conversation.stage -->
+    <record id="data_conversation_stage_1" model="acrux.chat.conversation.stage">
+        <field name="name">Pending</field>
+        <field name="sequence">5</field>
+    </record>
+    <record id="data_conversation_stage_2" model="acrux.chat.conversation.stage">
+        <field name="name">Urgent</field>
+        <field name="sequence">6</field>
+    </record>
+    <record id="data_conversation_stage_3" model="acrux.chat.conversation.stage">
+        <field name="name">Finished</field>
+        <field name="sequence">7</field>
+        <field name="fold" eval="True"/>
+    </record>
+
+</data>
+</odoo>

@@ -1,0 +1,149 @@
+.acrux_Toolbox {
+    order: 3;
+    border-left: 1px solid $acrux_header_border_color;
+    border-right: 1px solid $acrux_header_border_color;
+
+    ::placeholder {
+        color: $o-gray-400;
+    }
+
+    .o_chat_toolbox_button_box .btn {
+        padding: 0;
+    }
+
+    .o_chat_toolbox_write {
+        width: 100%;
+        border-radius: 18px;
+    }
+
+    .o_chat_toolbox_message_signing {
+        display: flex;
+
+        label {
+            color: $o-gray-500;
+        }
+    }
+
+    .o_chat_toolbox_lang_selector {
+        max-width: 10em;
+        width: 20%;
+        min-width: 7em;
+
+        .o_input_dropdown .o_input {
+            font-size: 0.8rem;
+            color: $o-gray-500;
+        }
+    }
+
+    .o_chat_toolbox_done {
+        font-size: 20px;
+
+        :hover {
+            color: #ffcf00;
+        }
+    }
+
+    .o_chat_button_tmpl {
+        zoom: 0.9;
+    }
+
+    .o_chat_toolbox_input {
+        background-color: $o-white;
+        border: 1px solid $o-gray-400;
+        border-radius: 4px;
+        padding: 4px 0px 4px 12px;
+        font-size: 0.875rem;
+
+        .o_chat_toolbox_text_field:disabled,
+        .o_chat_toolbox_text_field[disabled] {
+            opacity: 0.3;
+        }
+
+        .o_chat_toolbox_text_field {
+            border: none;
+            resize: none;
+            min-height: 22px;
+            height: 22px;
+            margin-top: 2px;
+        }
+    }
+
+    .o_chat_toolbox_send {
+        border: 0;
+        color: $o-gray-600;
+        font-size: 18px;
+        line-height: 1;
+        opacity: 0.7;
+        background-color: unset;
+    }
+
+    .o_chat_toolbox_send:hover {
+        opacity: 1;
+        color: $o-success;
+    }
+
+    .o_chat_option_button {
+        border: 0;
+        color: $o-gray-600;
+        outline: 1px;
+        opacity: 0.7;
+        background-color: unset;
+
+        i {
+            font-size: 18px;
+        }
+    }
+
+    .o_chat_option_button:hover {
+        opacity: 1;
+        color: $o-success;
+    }
+
+    .o_chat_option_button:disabled,
+    .o_chat_option_button[disabled] {
+        opacity: 0.3
+    }
+
+    .o_chat_toolbox_attachements {
+        max-height: 150px;
+    }
+
+    .o_chat_toolbox_message_quote {
+        display: flex;
+        flex-flow: row;
+        padding-left: 6%;
+        padding-right: 4%;
+        max-height: 5em;
+
+
+        .o_chat_toolbox_message_quote_content {
+            flex: 1 1 auto;
+            display: flex;
+            max-width: 100%;
+
+            .o_chat_message {
+                max-width: 100%;
+                display: flex;
+                flex-flow: row;
+            }
+        }
+
+
+        .o_chat_toolbox_close_message {
+            display: block;
+            cursor: pointer;
+
+            svg {
+                align-self: center;
+                pointer-events: none;
+            }
+        }
+    }
+}
+
+.o-mail-ActivityListPopover {  /* fix responsive */
+    @media (max-width: 474px) {
+        width: #{"min(60vw, 640px)"};
+        max-height: 200px;
+    }
+}

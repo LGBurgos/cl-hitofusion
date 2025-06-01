@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ai.config.operation -->
+        <record id="data_config_operation_completation" model="acrux.chat.ai.config.operation">
+            <field name="key">completions</field>
+            <field name="name">Completions</field>
+            <field name="help">Generate text completions in response to a given text input.
+                It is useful for applications that require continuous text generation
+                in response to an input.
+            </field>
+        </record>
+        <record id="data_config_operation_chat_completation" model="acrux.chat.ai.config.operation">
+            <field name="key">chat_completions</field>
+            <field name="name">Chat Completions</field>
+            <field name="help">Generate responses in a real-time conversation in response
+                to a given text input. It is useful for chatbot or virtual assistant
+                applications that need to generate relevant and coherent responses
+                in a real-time conversation.
+            </field>
+            <field name="active">0</field>
+        </record>
+        <record id="data_config_operation_edits" model="acrux.chat.ai.config.operation">
+            <field name="key">edits</field>
+            <field name="name">Edits</field>
+            <field name="help">Generate suggestions for text correction in response
+                to a given misspelled text input. It is useful for text editing or
+                automated spelling correction applications.
+            </field>
+        </record>
+        <record id="data_config_operation_transcription" model="acrux.chat.ai.config.operation">
+            <field name="key">audio_transcriptions</field>
+            <field name="name">Transcriptions</field>
+            <field name="help">Convert audio to text, with the help of advanced
+                language models and speech recognition technologies. This tool is
+                useful to transcribe calls, videos or any audio into text.
+            </field>
+        </record>
+
+        <!-- Migrando 15.0.40 -> 15.0.41
+            text-davinci-003 => gpt-3.5-turbo-instruct
+            text-davinci-002 => gpt-3.5-turbo-instruct
+            text-curie-001   => gpt-3.5-turbo-instruct
+            text-babbage-001 => gpt-3.5-turbo-instruct
+            text-ada-001     => gpt-3.5-turbo-instruct
+            
+            text-davinci-edit-001 => gpt-4 
+            code-davinci-edit-001 => gpt-4 -->
+
+        <!-- ai.config.model -->
+        <!-- completation -->
+        <!-- todo: delete -->
+        <record id="data_config_operation_compl_1" model="acrux.chat.ai.config.model">
+            <field name="key">text-davinci-003</field>
+            <field name="name">GPT 3.5 Text Davinci 003</field>
+            <field name="operation_id" ref="data_config_operation_completation" />
+        </record>
+        <!-- todo: delete -->
+        <record id="data_config_operation_compl_2" model="acrux.chat.ai.config.model">
+            <field name="key">text-davinci-002</field>
+            <field name="name">GPT 3.5 Text Davinci 002</field>
+            <field name="operation_id" ref="data_config_operation_completation" />
+        </record>
+        <record id="data_config_operation_compl_6" model="acrux.chat.ai.config.model">
+            <field name="key">gpt-3.5-turbo-instruct</field>
+            <field name="name">GPT 3.5 Turbo Instruct</field>
+            <field name="operation_id" ref="data_config_operation_completation" />
+        </record>
+        <!-- chat_completation -->
+        <record id="data_config_operation_chat_compl_1" model="acrux.chat.ai.config.model">
+            <field name="key">gpt-3.5-turbo</field>
+            <field name="name">GPT 3.5 Turbo</field>
+            <field name="operation_id" ref="data_config_operation_chat_completation" />
+        </record>
+        <record id="data_config_operation_chat_compl_2" model="acrux.chat.ai.config.model">
+            <field name="key">gpt-4</field>
+            <field name="name">GPT 4</field>
+            <field name="operation_id" ref="data_config_operation_chat_completation" />
+        </record>
+        <!-- edits -->
+        <!-- todo: delete -->
+        <record id="data_config_operation_edit_1" model="acrux.chat.ai.config.model">
+            <field name="key">text-davinci-edit-001</field>
+            <field name="name">GPT 3 Text Davinci Edit 001</field>
+            <field name="operation_id" ref="data_config_operation_edits" />
+        </record>
+        <!-- transcription -->
+        <record id="data_config_operation_transcription_1" model="acrux.chat.ai.config.model">
+            <field name="key">whisper-1</field>
+            <field name="name">Whisper</field>
+            <field name="operation_id" ref="data_config_operation_transcription" />
+        </record>
+    </data>
+    
+    <data noupdate="1">
+        <!-- ai.config -->
+        <record id="data_ai_config_1" model="acrux.chat.ai.config">
+            <field name="name">Reply Chat</field>
+            <field name="operation_id" ref="data_config_operation_completation" />
+            <field name="ai_model_id" ref="data_config_operation_compl_6" />
+            <field name="auth_token">X</field>
+            <field name="message_number">10</field>
+            <field name="command">The following is a conversation with an AI assistant.
+                The assistant is helpful, creative, clever, and very friendly:</field>
+            <field name="temperature">0.9</field>
+            <field name="top_p">1</field>
+            <field name="max_tokens">150</field>
+            <field name="presence_penalty">0</field>
+            <field name="frequency_penalty">0.6</field>
+            <field name="add_roles">1</field>
+        </record>
+        <record id="data_ai_config_2" model="acrux.chat.ai.config">
+            <field name="name">Translate to English</field>
+            <field name="operation_id" ref="data_config_operation_completation" />
+            <field name="ai_model_id" ref="data_config_operation_compl_6" />
+            <field name="auth_token">X</field>
+            <field name="message_number">1</field>
+            <field name="command">Translate to English:</field>
+            <field name="temperature">0.3</field>
+            <field name="top_p">1</field>
+            <field name="max_tokens">100</field>
+            <field name="presence_penalty">0</field>
+            <field name="frequency_penalty">0</field>
+            <field name="only_incoming">1</field>
+        </record>
+        <record id="data_ai_config_3" model="acrux.chat.ai.config">
+            <field name="name">Check Spelling</field>
+            <field name="operation_id" ref="data_config_operation_chat_completation" />
+            <field name="ai_model_id" ref="data_config_operation_chat_compl_2" />
+            <field name="auth_token">X</field>
+            <field name="message_number">0</field>
+            <field name="command">Fix Spelling: </field>
+            <field name="temperature">0</field>
+            <field name="top_p">1</field>
+            <field name="max_tokens">60</field>
+            <field name="presence_penalty">0</field>
+            <field name="frequency_penalty">0</field>
+        </record>
+        <record id="data_ai_config_4" model="acrux.chat.ai.config">
+            <field name="name">Transcription</field>
+            <field name="operation_id" ref="data_config_operation_transcription" />
+            <field name="ai_model_id" ref="data_config_operation_transcription_1" />
+            <field name="auth_token">X</field>
+            <field name="temperature">0.2</field>
+            <field name="sequence">99</field>
+       </record>
+        <record id="data_ai_config_5" model="acrux.chat.ai.config">
+            <field name="name">Ask</field>
+            <field name="operation_id" ref="data_config_operation_completation" />
+            <field name="ai_model_id" ref="data_config_operation_compl_6" />
+            <field name="auth_token">X</field>
+            <field name="message_number">0</field>
+            <field name="command">I am a highly intelligent question answering bot. If the answer is not clear, I will reply with "Unknown".</field>
+            <field name="temperature">0</field>
+            <field name="top_p">1</field>
+            <field name="max_tokens">100</field>
+            <field name="presence_penalty">0</field>
+            <field name="frequency_penalty">0</field>
+            <field name="sequence">5</field>
+        </record>
+        <record id="data_ai_translate" model="acrux.chat.ai.config">
+            <field name="name">Translate to lang parameter.</field>
+            <field name="operation_id" ref="data_config_operation_completation" />
+            <field name="ai_model_id" ref="data_config_operation_compl_6" />
+            <field name="auth_token">X</field>
+            <field name="message_number">1</field>
+            <field name="command">Translate to %s:</field>
+            <field name="temperature">0.3</field>
+            <field name="top_p">1</field>
+            <field name="max_tokens">100</field>
+            <field name="presence_penalty">0</field>
+            <field name="frequency_penalty">0</field>
+            <field name="only_incoming">1</field>
+            <field name="active" eval="False" />
+            <field name="advance_command">lang = kwargs.get('target_lang', user.lang)
+ResLang = self.env['res.lang'].with_context(active_test=False).sudo()
+lang = ResLang.search([('code', '=', lang)])
+result = self.command % lang.name</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--tree -->
+    <record id="acrux_chat_button_tree" model="ir.ui.view">
+        <field name="name">acrux.chat.button.base.tree</field>
+        <field name="model">acrux.chat.button.base</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="btn_id" />
+                <field name="ttype" />
+                <field name="text" />
+                <field name="url"
+                    readonly="ttype != 'url'"
+                    required="ttype == 'url'" />
+                <field name="phone"
+                    readonly="ttype != 'call'"
+                    required="ttype == 'call'" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- tree -->
+    <record id="acrux_chat_template_button_tree" model="ir.ui.view">
+        <field name="name">acrux.chat.template.button.form</field>
+        <field name="model">acrux.chat.template.button</field>
+        <field name="inherit_id" ref="acrux_chat_button_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="btn_id" position="before">
+                <field name="template_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <!-- tree -->
+    <record id="acrux_chat_message_button_tree" model="ir.ui.view">
+        <field name="name">acrux.chat.message.button.form</field>
+        <field name="model">acrux.chat.message.button</field>
+        <field name="inherit_id" ref="acrux_chat_button_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="btn_id" position="before">
+                <field name="message_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <!-- tree -->
+    <record id="acrux_chat_message_list_item_button_tree" model="ir.ui.view">
+        <field name="name">acrux.chat.message.list.item.button.tree</field>
+        <field name="model">acrux.chat.message.list.item.button</field>
+        <field name="inherit_id" ref="acrux_chat_button_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="btn_id" position="before">
+                <field name="item_id" invisible="1" />
+            </field>
+            <field name="text" position="after">
+                <field name="description" />
+            </field>
+            <field name="ttype" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="url" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="phone" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>

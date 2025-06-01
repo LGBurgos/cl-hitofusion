@@ -1,0 +1,130 @@
+.o_Conversation:hover {
+    background-color: $acrux_conversation_hover;
+}
+
+.o_Conversation.active {
+    background-color: $acrux_conversation_hover;
+}
+
+.o_Conversation {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    color: $o-gray-700;
+    width: 100%;
+
+    .acrux_image_perfil {
+        height: 40px;
+        width: 40px;
+        min-height: 40px;
+        min-width: 40px;
+        border-radius: 50%;
+        position: relative;
+        margin: 4px;
+        flex: 0 1 auto;
+
+        img {
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+
+        .acrux_facebook,
+        .acrux_messenger,
+        .acrux_instagram,
+        .acrux_whatsapp {
+            background-image: url(/whatsapp_connector/static/src/img/social_icons_v2.png);
+            background-repeat: no-repeat;
+            background-size: 176px 60px;
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            bottom: -22px;
+            right: 0;
+            transform: scale(0.33);
+        }
+
+        .acrux_facebook {
+            background-position: 0 0;
+        }
+
+        .acrux_messenger {
+            background-position: 0 0;
+        }
+
+        .acrux_instagram {
+            background-position: -59px 0;
+        }
+
+        .acrux_whatsapp {
+            background-position: -118px 0;
+        }
+    }
+
+    .acrux_chat_conversation_info {
+        padding: 4px 2px 2px 6px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        border-bottom: 1px solid $acrux_header_border_color;
+        flex: 1 1 auto;
+
+        >div {
+            width: 100%;
+        }
+
+        .acrux_chat_conversation_tools {
+            display: inline-block;
+
+            button {
+                padding: 0 0.3rem;
+                font-size: 1.2rem;
+                line-height: 1;
+            }
+
+            .btn {
+                color: $o-gray-300;
+                vertical-align: baseline;
+            }
+        }
+
+        .acrux_chat_conversation_tag {
+            white-space: nowrap;
+            margin-right: 4px;
+            text-overflow: ellipsis;
+            font-weight: normal;
+            opacity: 0.93;
+            overflow: hidden;
+
+            >div {
+                box-shadow: inset 0 0 0 1px;
+                font-size: 11px;
+            }
+        }
+
+    }
+
+    .o_conversation_name {
+        flex: 1;
+        display: inline-block;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: top;
+        margin-right: 5px;
+        color: $o-black;
+    }
+
+    .o_acrux_agent {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: normal;
+        color: $o-gray-400;
+        font-size: 0.875em;
+    }
+
+}

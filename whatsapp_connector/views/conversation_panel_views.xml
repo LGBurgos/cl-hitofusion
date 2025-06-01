@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <template id="template_conversation_panel_activity_summary">
+        <div class="d-flex flex-column flex-grow">
+            <t t-foreach="activity_ids" t-as="activity">
+                <span>Aquí irán algunas estadísticas de mensajes</span>
+                <span><i t-attf-class="fa #{activity.icon}"/> <t t-out="activity.summary"/> (<t t-out="activity.user_id.name"/>)</span>
+                <span><i class="fa fa-clock-o"/> <span t-field="activity.date_deadline"/></span>
+            </t>
+        </div>
+    </template>
+
+    <!-- todo: llamar esta vista especificando id -->
+    <record id="view_mail_activity_kanban" model="ir.ui.view">
+        <field name="name">mail.activity kanban</field>
+        <field name="model">mail.activity</field>
+        <field name="priority" eval="30"/>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="icon"/>
+                <field name="state"/>
+                <field name="summary"/>
+                <field name="date_deadline"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-att-class="'d-flex flex-column bg-opacity-25 acrux_chat_panel_' + record.state.raw_value">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <field name="activity_conversation_id"/>
+                                </div>
+                                <div>
+                                    <field name="date_deadline"/>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <i t-att-class="'me-1 fa ' + record.icon.value"/>
+                                    <field name="summary"/>
+                                </div>
+                                <field name="user_id" t-if="context.user_id !== record.user_id.raw_value"/>
+                            </div>
+                            <!--<div class="d-flex">
+                                <button name="action_done" string="Close"
+                                        type="object" class="btn-link"/>
+                                <button name="action_notify" string="Notify"
+                                        type="object" class="btn-link"/>
+                                <button name="action_open_document" string="Open"
+                                        type="object" class="btn-link"/>
+                            </div>-->
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="view_whatsapp_conversation_panel_form" model="ir.ui.view">
+        <field name="name">acrux.chat.panel.form</field>
+        <field name="model">acrux.chat.panel</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <form string="Chatroom Panel" class="o_ActivitiesForm">
+                <sheet>
+                    <field name="name" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_open_view_generic" icon="fa-comments">
+                            <field string="Activities" name="activity_ids_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title mb-3">
+                        <h5>Activities of:</h5>
+                    </div>
+                    <field name="user_id" class="mb-3" widget="many2one_avatar_user" options="{'no_create': True}"/>
+                    <div>
+                        <field name="activity_ids" mode="kanban" nolabel="1"
+                            context="{'user_id': user_id}"/>
+                    </div>
+                    <div class="oe_title mb-3">
+                        <h5>Activities of other Agents:</h5>
+                    </div>
+                    <div>
+                        <field name="all_activity_ids" mode="kanban" nolabel="1"
+                            context="{'user_id': user_id}"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

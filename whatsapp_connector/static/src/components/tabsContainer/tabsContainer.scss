@@ -1,0 +1,166 @@
+.o_sidebar_right.col-12 {
+    .o_TabsContainer {
+        >.o_notebook_headers {
+            >ul.nav-tabs {
+                @media (max-width: 624px) {
+                    a.nav-link {
+                        i {
+                            font-size: 1.6em;
+                        }
+
+                        svg {
+                            zoom: 1.4;
+                            margin-top: 0px;
+                        }
+
+                        span {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.o_sidebar_right:not(.col-12) {
+    .o_TabsContainer.horizontal {
+        >.o_notebook_headers {
+            >ul.nav-tabs svg {
+                margin-top: -3px;
+            }
+        }
+    }
+}
+
+.o_TabsContainer {
+    overflow: hidden;
+    flex: 1 1 auto;
+
+    // respuestas predetermiandas
+    .o_table_default {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        padding: 1rem 1rem 0;
+        overflow: auto;
+
+        >div {
+            flex-basis: 50%;
+            flex-grow: 1;
+        }
+    }
+
+    // tab info, fomrulario de la conversacion
+    .o_InfoForm {
+        .o_form_statusbar {
+            padding-left: unset;
+            margin-bottom: 16px;
+        }
+
+        .o_cp_bottom_right {
+            display: none;
+        }
+    }
+    // tab panel
+    .o_ActivitiesForm .o_control_panel_breadcrumbs {
+        display: none !important;
+    }
+
+    // retocar los formularios dentro de los tabs de chatroom
+    >.o_notebook_headers {
+        background-color: $acrux_header_background_color;
+
+        >.nav {
+            background-color: inherit;
+
+            .nav-link.active,
+            .nav-link:hover {
+                background-color: $acrux_tab_background_active;
+            }
+
+            .nav-link .fa {
+                font-size: 16px;
+            }
+        }
+    }
+
+    // para arreglar el scroll de todas las vistas from, tree, kanban
+    >.o_notebook_content.tab-content {
+        flex-grow: 1;
+        overflow: hidden;
+
+        div.tab-pane {
+            height: 100%;
+
+            >div {
+                height: inherit;
+            }
+        }
+    }
+
+    .o_EmptyTab {
+        text-align: center;
+        padding-top: 1em;
+
+        span {
+            color: #7C7BAD;
+            font-size: 16px;
+        }
+    }
+}
+
+.o_TabsContainer.horizontal {
+    >.o_notebook_headers {
+        flex: 0 0 42px; // tamaño de los bordes de chatroom
+
+        >.nav {
+            border-bottom: 1px solid $acrux_header_border_color;
+            // scroll para los tabs
+            overflow-y: hidden;
+            overflow-x: hidden;
+            justify-content: flex-end;
+
+            .nav-link {
+                min-height: 42px;
+                padding: 0.8rem 1rem 0.4rem 1rem;
+                border: 0;
+            }
+
+            .nav-link.active,
+            .nav-link:hover {
+                border-top-color: #00DAC5;
+                border-top-width: 1px;
+                border-style: solid;
+            }
+        }
+    }
+}
+
+.o_TabsContainer.vertical {
+    height: 100%;
+
+    >.o_notebook_headers {
+        flex: 0 0 44px;
+        overflow-x: hidden;
+
+        >.nav {
+            // scroll para los tabs
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 100%;
+            flex-wrap: nowrap;
+
+            .nav-link:not(.active) {
+                border-color: transparent;
+            }
+
+            .nav-link {
+                border-left-width: 3px;
+                text-align: center;
+                padding: 0.7rem !important;
+            }
+        }
+    }
+}

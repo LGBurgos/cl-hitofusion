@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.ChatroomHeader" owl="1">
+        <div class="o_ChatroomHeader" t-attf-class="{{props.className}}">
+            <t t-slot="default" />
+        </div>
+    </t>
+</templates>

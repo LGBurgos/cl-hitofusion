@@ -1,0 +1,80 @@
+// $o-enterprise-action-color > color de link
+// $o-webclient-background-color > fondo body
+// $o-gray-200 > color fondo menu tabs
+// var(--body-color) > color de texto
+// var(--body-bg) > color de fondo
+// kanban
+// $o-border-color ó $border-color > color borde kanban
+// $o-view-background-color > fondo
+
+// Chat active (hover)
+$acrux_conversation_hover: if($o-webclient-color-scheme == 'bright', #e7ffd4, #99ff4914);
+// Color fondo formularios exterior
+$fondo_oscuro: var(--body-bg);
+// Color fondo formularios interior
+$fondo_claro: if($o-webclient-color-scheme == 'bright', $o-white, $o-gray-200);
+// Header (Y 1º columna?)
+$acrux_header_background_color: $fondo_oscuro;
+// Bordes columnas y Header
+$acrux_header_border_color: if($o-webclient-color-scheme == 'bright', #cccccc, #121212);
+// Area de mensajes
+$acrux_content_background_color: $fondo_claro;
+$acrux_content_background_image: if($o-webclient-color-scheme == 'bright',
+    url(/whatsapp_connector/static/src/img/fondo2.png),
+    url(/whatsapp_connector/static/src/img/fondo3.jpg)
+);
+//Mensajes
+$acrux_message_out_background_color: if($o-webclient-color-scheme == 'bright', #E2F2E7, #17cdb10d);  // 253E3B
+$acrux_message_out_border_color: if($o-webclient-color-scheme == 'bright', #C7E7CF, #23503F);
+$acrux_message_in_background_color: if($o-webclient-color-scheme == 'bright', #E0F1F5, #2e384f);  // 2E3C4F
+$acrux_message_in_border_color: if($o-webclient-color-scheme == 'bright', #C3E6EC, #374B67);
+
+$acrux_input_background_color: if($o-webclient-color-scheme == 'bright', $o-white, $o-gray-200);
+$acrux_input_border_color: gray;
+$acrux_color_red_bg: if($o-webclient-color-scheme == 'bright', #dc3545, #5c121b);
+$acrux_color_red_bg_txt: if($o-webclient-color-scheme == 'bright', #FFF, #FFD6D0);
+$acrux_color_red_txt: if($o-webclient-color-scheme == 'bright', #bd3f4f, #b1636d);
+$acrux_highlight_txt: #3f7cbd;
+$aux_shadow_light: 0 0 6px 1px;
+$aux_shadow_dark: 0 0 3px 3px;
+$acrux_shadow: if($o-webclient-color-scheme == 'bright', $aux_shadow_dark , $aux_shadow_light);
+$acrux_sidebar_right_background_color: if($o-webclient-color-scheme == 'bright', $o-view-background-color, $o-gray-200);
+// Tab active
+$acrux_tab_background_active: if($o-webclient-color-scheme == 'bright', lavender, $fondo_claro);
+// Productos
+$acrux_card_background: if($o-webclient-color-scheme == 'bright', #f6f7fa, $fondo_claro);
+$acrux_card_border: if($o-webclient-color-scheme == 'bright', $o-gray-200, #121212);
+
+$acrux_chat_color_width: if($o-webclient-color-scheme == 'bright', 0 0 0 4px, 0 0 0 3px);
+
+.acrux_chat_color {
+    border-width: $acrux_chat_color_width;
+    border-style: solid;
+}
+
+.acrux_red_text {
+    color: $acrux_color_red_txt;
+}
+
+.acrux_button {
+    height: 23px;
+    margin-top: 1px;
+    line-height: 0.9rem;;
+}
+.o_web_client.o_touch_device .acrux_button {
+    height: 30px;
+    margin-top: unset;
+}
+
+.acrux_conversation_note {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+    font-size: 0.9em;
+    color: $acrux_highlight_txt;
+}
+
+%-tab-transition {
+    transition: width 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+}

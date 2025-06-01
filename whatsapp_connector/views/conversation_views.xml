@@ -1,0 +1,470 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_search">
+        <field name="name">acrux.chat.conversation.search</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="arch" type="xml">
+            <search string="Conversation">
+                <field name="connector_id" />
+                <field name="number" />
+                <field name="conv_type" />
+                <field name="agent_id" />
+                <field name="name" filter_domain="['|', ('name','ilike',self), ('number','ilike',self)]" />
+                <filter string="Last Month" name="last_month"
+                    domain="[('last_received', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%%Y-%%m-%%d'))]" />
+                <separator />
+                <filter name="filter_valid_number" string="Invalid numbers (apichat.io)"
+                    domain="[('valid_number','!=','yes'), ('connector_id.connector_type','=','apichat.io')]" />
+                <filter name="filter_status_new" string="New" domain="[('status','=','new')]" />
+                <filter name="filter_status_current" string="Current" domain="[('status','=','current')]" />
+                <filter name="filter_status_done" string="Done" domain="[('status','=','done')]" />
+                <filter name="filter_is_group" string="Is a group" domain="[('conv_type','=', 'group')]" />
+                <filter name="filter_is_not_group" string="Not a group" domain="[('conv_type','!=', 'group')]" />
+                <filter name="filter_with_stars" string="With Stars" domain="[('priority','>', 0)]" />
+                <filter name="filter_with_activity" string="With Activity" domain="[('activity_ids','!=', False)]" />
+                <filter name="filter_mines" string="Mines" domain="[('agent_id','=', uid)]" />
+                <group string="Group by">
+                    <filter name="group_by_connector" string="Connector" context="{'group_by':'connector_id'}" />
+                    <filter name="group_agent" string="Agent" context="{'group_by':'agent_id'}" />
+                    <filter name="group_status" string="Status" context="{'group_by':'status'}" />
+                    <filter name="group_last_activity" string="Last activity" context="{'group_by':'last_activity:month'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_inline_tree">
+        <field name="name">acrux.chat.conversation.inline.tree</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" delete="false" create="false">
+                <field name="connector_id" widget="selection" readonly="1" />
+                <field name="number" readonly="1" />
+                <field name="conv_type" readonly="1" />
+                <field name="agent_id" widget="selection" readonly="1" />
+                <field name="name" readonly="1" />
+                <field name="res_partner_id" widget="selection" readonly="1" />
+                <field name="company_id" invisible="1" />
+                <field name="valid_number" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_tree">
+        <field name="name">acrux.chat.conversation.tree</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="conv_type" />
+                <field name="number_format" />
+                <field name="valid_number"
+                    invisible="connector_type not in ['apichat.io', 'gupshup']" />
+                <button name="action_check_is_valid" type="object" string="Check" class="oe_inline oe_link"
+                    invisible="connector_type != 'apichat.io' or valid_number == 'yes'" />
+                <field name="status" />
+                <field name="agent_id" />
+                <field name="connector_id" />
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                <field name="last_activity" optional="hide" />
+                <field name="company_id" invisible="1" />
+                <field name="connector_type" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- crear chat -->
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_form_create">
+        <field name="name">acrux.chat.conversation.chatroom.form create</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="priority">15</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet class="acrux-editor-highlight">
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="connector_id" widget="selection"
+                                   domain="[('connector_type', 'in', ['apichat.io', 'gupshup', 'waba_extern'])]"/>
+                            <field name="name"/>
+                            <field name="number" string="Number" placeholder="Numbers only, with country code"/>
+                        </group>
+                        <group>
+                            <field name="res_partner_id" context="{'set_default': True, 'no_create': True}"
+                                   groups="base.group_partner_manager" />
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create': True}"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- formulario base para la conversaciones, todos herendan de aqui -->
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_form_base">
+        <field name="name">acrux.chat.conversation.chatroom.form</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet class="acrux-editor-highlight">
+                    <header>
+                    </header>
+                    <group>
+                    </group>
+                    <notebook>
+                        <page invisible="1 == 1" />
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- form admin -->
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_form_admin">
+        <field name="name">acrux.chat.conversation.form</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="inherit_id" ref="view_whatsapp_connector_conversation_form_base" />
+        <field name="priority">20</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/header" position="inside">
+                <field name="status" widget="statusbar" options="{'clickable': '1'}" />
+                <button name="toggle_opt_in" type="object" string="Request Opt-in" class="btn-primary"
+                    invisible="is_waba_opt_in == True or connector_type != 'gupshup'" />
+                <button class="oe_stat_button" type="action"
+                    name="%(whatsapp_connector.acrux_chat_message_wizard_action)d"
+                    groups="whatsapp_connector.group_chat_basic"
+                    icon="fa-whatsapp"
+                    context="{'default_conversation_id': id, 'full_name': True}">
+                    <span class="o_stat_info">Send</span>
+                </button>
+            </xpath>
+            <xpath expr="//form/sheet/group" position="inside">
+                <field name="connector_id" />
+                <field name="res_partner_id" context="{'set_default': True}" groups="base.group_partner_manager" />
+                <field name="name" />
+                <field name="number" string="Number" placeholder="Numbers only, with country code" />
+                <field name="conv_type" />
+                <field name="valid_number"
+                    invisible="connector_type not in ['apichat.io', 'gupshup']" />
+                <field name="team_id" />
+                <field name="agent_id" />
+                <field name="is_odoo_created" widget="boolean_toggle" />
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                <field name="note" />
+                <field name="stage_id" options="{'no_create': True, 'no_open': True}" />
+                <field name="priority" widget="priority" />
+                <field name="is_waba_opt_in" widget="boolean_toggle"
+                    invisible="connector_type != 'gupshup'" />
+                <field name="tmp_agent_id" options="{'no_create': True, 'no_open': True}" invisible="1" />
+                <field name="description" />
+                <field name="last_activity" />
+                <field name="last_sent" />
+                <field name="last_received" />
+                <field name="last_received_first" />
+                <field name="image_url" />
+                <field name="image_128" widget="image" style="max-width: 128px;" />
+                <field name="company_id" invisible="1" />
+                <field name="connector_type" invisible="1" />
+            </xpath>
+            <xpath expr="//form/sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- form default - wizards -->
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_form">
+        <field name="name">acrux.chat.conversation.form</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="inherit_id" ref="view_whatsapp_connector_conversation_form_admin" />
+        <field name="priority">16</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="status" widget="statusbar" position="attributes">
+                <attribute name="options">{'clickable': '0'}</attribute>
+            </field>
+            <field name="connector_id" position="attributes">
+                <attribute name="widget">selection</attribute>
+                <attribute name="domain">[('connector_type', 'in', ['apichat.io', 'gupshup', 'waba_extern'])]</attribute>
+                <attribute name="readonly">not context.get('chat_full_edit')</attribute>
+            </field>
+            <field name="number" position="attributes">
+                <attribute name="invisible">not context.get('chat_full_edit')</attribute>
+            </field>
+            <field name="number" position="after">
+                <field name="conv_type" />
+                <field name="number_format" />
+            </field>
+            <field name="agent_id" position="attributes">
+                <attribute name="widget">selection</attribute>
+            </field>
+            <field name="res_partner_id" position="attributes">
+                <attribute name="options">{'no_open': True, 'no_create': True}</attribute>
+            </field>
+            <field name="last_received" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="last_received_first" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="last_activity" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="last_sent" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_url" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="image_128" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="team_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="is_waba_opt_in" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//button[@name='toggle_opt_in']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <field name="is_odoo_created" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+    <!-- formulario para la pestaña info en el chatroom -->
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_chatroom_form">
+        <field name="name">acrux.chat.conversation.chatroom.form</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="inherit_id" ref="view_whatsapp_connector_conversation_form_base" />
+        <field name="priority">25</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form position="attributes">
+                <attribute name="create">0</attribute>
+                <attribute name="delete">0</attribute>
+            </form>
+            <xpath expr="//form/sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="activity_ids" />
+                </div>
+            </xpath>
+            <xpath expr="//form/sheet/group" position="before">
+                <group class="mt-4">
+                    <group col="1">
+                        <div class="acrux_avatar_container">
+                            <field name="image_128" widget="image" class="acrux_avatar_img" />
+                            <div class="acrux_avatar_content">
+                                <div class="">
+                                    <button name="refresh_api_data" type="object" title="Refresh Info" icon="fa-refresh"
+                                        class="btn-link oe_edit_only" help="Refresh conversation data from api."
+                                        invisible="connector_type != 'apichat.io'" />
+                                    <field name="name" />
+                                </div>
+                                <div class="oe_grey small">
+                                    <field name="number_format" class="oe_inline me-1" />
+                                    <div class="oe_inline"> (<field name="connector_id" readonly="1" options="{'no_open': True}" />) </div>
+                                </div>
+                                <div class="oe_grey small">
+                                    <div class="me-1">Current Agent:</div>
+                                    <field name="agent_id" class="fw-bolder oe_inline"
+                                        readonly="1"
+                                        options="{'no_open': True}" />
+                                </div>
+                            </div>
+                        </div>
+                    </group>
+                    <group>
+                        <label for="res_partner_id" string="Contact" class="oe_inline" />
+                        <div class="o_row o_row_readonly">
+                            <field name="res_partner_id" options="{'no_create': True}" />
+                            <span class="fa fa-exclamation-triangle text-warning oe_edit_only"
+                                invisible="res_partner_id != False"
+                                title="No Contact assigned" />
+                        </div>
+                        <label for="partner_info" class="hide_label" />
+                        <div class="o_row o_row_readonly">
+                            <field name="partner_info" class="pre_style small text-600" />
+                        </div>
+                    </group>
+                    <group string="Assign">
+                        <label for="tmp_agent_id" string="Agent" class="oe_inline" />
+                        <div class="o_row o_row_readonly">
+                            <field name="tmp_agent_id" options="{'no_create': True, 'no_open': True}"
+                                domain="[('id', '!=', agent_id), ('company_id', 'in', [company_id, False]), ('is_chatroom_group', '=', True)]" />
+                            <button name="delegate_conversation" type="object" string="Delegate"
+                                class="btn-link mx-0 pe-0" help="Set your taken conversation to new or assign another user." />
+                        </div>
+                        <label for="team_id" string="Team" class="oe_inline" />
+                        <div class="o_row o_row_readonly">
+                            <field name="team_id" options="{'no_create': True, 'no_open': True}" />
+                        </div>
+                    </group>
+                    <group string="Classify">
+                        <field name="priority" widget="priority" />
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create': True}" />
+                        <field name="note" />
+                    </group>
+                    <field name="company_id" invisible="1" />
+                    <field name="connector_type" invisible="1" />
+                    <field name="is_waba_opt_in" invisible="1" />
+                    <field name="conv_type" invisible="1" />
+                </group>
+            </xpath>
+
+            <xpath expr="//form/sheet/header" position="inside">
+                <button name="toggle_opt_in" type="object" string="Request Opt-in" class="btn-primary"
+                    invisible="is_waba_opt_in == True or connector_type != 'gupshup'" />
+                <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" />
+            </xpath>
+            <xpath expr="//form/sheet/header" position="attributes">
+                <attribute name="invisible">context.get('only_edit')</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_wizard_form">
+        <field name="name">acrux.chat.conversation.wizard.form</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="connector_id" widget="selection" />
+                    <field name="name" />
+                    <field name="number" />
+                    <field name="conv_type" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kanban para chatroom -->
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_kanban">
+        <field name="name">acrux.chat.conversation.kanban.tuneling</field>
+        <field name="model">acrux.chat.conversation</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column o_chatroom_funnel"
+                create="0" delete="0" archivable="false" sample="1" group_create="false"
+                quick_create="0">
+                <field name="id" />
+                <field name="stage_id" options='{"group_by_tooltip": {"requirements": "Description"}}' />
+                <field name="color" />
+                <field name="priority" />
+                <field name="kanban_state" />
+                <field name="activity_date_deadline" />
+                <field name="agent_id" />
+                <field name="res_partner_id" />
+                <field name="activity_summary" />
+                <field name="activity_state" />
+                <field name="activity_ids" />
+                <field name="status" />
+                <field name="connector_id" />
+                <field name="border_color" />
+                <field name="tag_ids" />
+                <field name="note" />
+                <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'
+                    help="This bar allows to filter the chats based on scheduled activities." />
+                <templates>
+                    <t t-name="kanban-menu">
+                        <t t-if="widget.editable">
+                            <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                        </t>
+                        <t t-if="widget.deletable">
+                            <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                        </t>
+                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_title d-flex justify-content-between">
+                                    <field name="name" />
+                                    <span class="ms-2" t-esc="record.connector_id.value"
+                                        t-attf-style="color:#{record.border_color.value === '#FFFFFF' ? 'black': record.border_color.value}" />
+                                </div>
+                                <div class="text-400 small" t-if="record.agent_id.value">
+                                    <field name="agent_id" widget="many2one_avatar_user" />
+                                    <span t-esc="record.agent_id.value" />
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"
+                                        class="text-nowrap d-flex" />
+                                    <span class="acrux_conversation_note" style="margin-bottom: var(--KanbanRecord-gap-v);"
+                                        t-esc="record.note.value" t-att-title="record.note.value" />
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="priority" widget="priority" groups="base.group_user" />
+                                    <field name="activity_ids" widget="kanban_activity" />
+                                    <button class="btn btn-sm text-primary fa fa-paper-plane" type="action"
+                                        title="Send"
+                                        name="%(whatsapp_connector.acrux_chat_message_wizard_action)d"
+                                        context="{'default_conversation_id': id, 'full_name': True}" />
+                                    <button class="btn btn-sm text-primary fa fa-pencil" type="edit" title="Edit" />
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <span t-if="record.status.raw_value === 'new'"
+                                        t-esc="record.status.value" />
+                                    <span t-if="record.status.raw_value === 'current' and context.uid === record.agent_id.raw_value"
+                                        style="color: #1e7e34"
+                                        t-esc="record.status.value" />
+                                    <span t-if="record.status.raw_value === 'current' and context.uid !== record.agent_id.raw_value"
+                                        style="color: red"
+                                        t-esc="record.status.value" />
+                                </div>
+                            </div>
+                            <div class="oe_clear" />
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="view_whatsapp_connector_conversation_action">
+        <field name="name">Conversation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">acrux.chat.conversation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'please_log_event': True}</field>
+    </record>
+    <record model="ir.actions.act_window.view" id="conversation_action_tree">
+        <field name="sequence" eval="30" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_whatsapp_connector_conversation_tree" />
+        <field name="act_window_id" ref="view_whatsapp_connector_conversation_action" />
+    </record>
+    <record model="ir.actions.act_window.view" id="conversation_action_form">
+        <field name="sequence" eval="31" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_whatsapp_connector_conversation_form_admin" />
+        <field name="act_window_id" ref="view_whatsapp_connector_conversation_action" />
+    </record>
+
+    <record id="acrux_live_chat_action" model="ir.actions.client">
+        <field name="name">ChatRoom Live</field>
+        <field name="tag">acrux.chat.conversation_tag</field>
+        <field name="res_model">acrux.chat.conversation</field>
+        <field name="params" eval="&quot;{
+            'default_active_id': 'acrux_chat_live_id'
+        }&quot;" />
+        <field name="context">{'is_acrux_chat_room': True}</field>
+    </record>
+
+</odoo>

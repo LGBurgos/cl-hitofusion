@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_whatsapp_connector_ai_interface_form">
+        <field name="name">acrux.chat.ai.interface.form</field>
+        <field name="model">acrux.chat.ai.interface</field>
+        <field name="inherit_id" ref="whatsapp_connector.view_whatsapp_connector_ai_interface_base_form" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="operation_key" position="after">
+                <field name="conversation_id" colspan="2" invisible="1" />
+                <field name="company_id" colspan="2" invisible="1" />
+            </field>
+            <field name="res_text" position="before">
+                <button name="send_message" type="object"
+                    string="Send" class="btn-primary btn-sm acrux_button" colspan="2" />
+            </field>
+            <button name="execute_command" position="after">
+                <button name="onchange_conv_ai_config" type="object"
+                    class="btn-primary oe_inline mx-2 btn-sm acrux_button" icon="fa-refresh"
+                    title="Refresh" />
+            </button>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,214 @@
+// esconde botones en el formulario por ejemplo exportar, 
+@mixin hide_o_cp_bottom_left {
+    .o_cp_bottom_left {
+        display: none;
+    }
+
+    .o_cp_bottom_right {
+        width: 100%;
+
+        >div {
+            justify-content: flex-end; //alinear a la derecha
+        }
+    }
+}
+
+// esconder en todas las vistas botones de exportar y otros, 
+@mixin hide_o_cp_bottom_left_all_views {
+
+    >.o_kanban_view,
+    >.o_list_view,
+    >.o_form_view {
+        @include hide_o_cp_bottom_left;
+    }
+}
+
+// agrandar los botones del box de los formularios
+@mixin form_buttonbox_fix {
+    .o_form_sheet_bg {
+        >.o_form_sheet {
+            >.o-form-buttonbox {
+
+                .btn.oe_stat_button,
+                >.o_field_widget {
+                    width: 20%;
+                    margin-top: 0;
+                    font-size: 0.9rem;
+                }
+            }
+        }
+    }
+}
+
+// esconder el texto de los botones del box en los formularios
+@mixin form_buttonbox_hide_text {
+    .o_form_sheet_bg {
+        >.o_form_sheet {
+            >.o-form-buttonbox {
+                .btn.oe_stat_button {
+                    width: auto;
+
+                    >.o_field_statinfo,
+                    >.o_stat_info {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// convertir formulario a 1 columna
+@mixin form_to_1_column {
+    .o_form_sheet_bg {
+        padding-top: 0;
+        padding-right: 0;
+        >.o_form_sheet {
+            >.o_group {
+                >.o_inner_group {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+// convertir field a 2 filas
+@mixin form_field_2_row {
+    .o_form_sheet_bg {
+        >.o_form_sheet {
+            >.o_group {
+                >.o_inner_group {
+                    display: flex;
+                    flex-direction: column !important;
+                    row-gap: 0px;
+                }
+            }
+        }
+    }
+}
+
+// Chatter siempre abajo en formularios
+.o_Chatroom {
+    .o_form_renderer.flex-nowrap {
+        flex-wrap: wrap !important;
+        align-content: flex-start;  //Pegar Chatter arriba
+        .o-mail-Form-chatter.o-aside {
+            width: fit-content;
+            zoom: 90%;
+        }
+    }
+}
+
+// pequeño
+.o_sidebar_right.col-lg-3,
+.o_sidebar_right.col-xl-3 {
+    .o_ActionTab {
+        @include hide_o_cp_bottom_left_all_views;
+
+        >.o_form_view {
+            @include form_buttonbox_fix;
+            @include form_to_1_column;
+
+            @media (min-width: 992px) and (max-width: 1533px) {
+                @include form_buttonbox_hide_text;
+            }
+
+            @media (min-width: 992px) and (max-width: 1400px) {
+                @include form_field_2_row;
+            }
+        }
+    }
+
+    .o_ActionTab.vertical {
+        >.o_form_view {
+            @include form_buttonbox_hide_text;
+        }
+    }
+}
+
+// mediano
+.o_sidebar_right.col-lg-5,
+.o_sidebar_right.col-xl-5 {
+    .o_ActionTab {
+        @media (min-width: 992px) and (max-width: 1533px) {
+            @include hide_o_cp_bottom_left_all_views;
+        }
+
+        >.o_list_view {
+            @media (min-width: 1534px) {
+                @include hide_o_cp_bottom_left;
+            }
+        }
+
+        >.o_form_view {
+            @include form_buttonbox_fix;
+
+            @media (min-width: 992px) and (max-width: 1800px) {
+                @include form_to_1_column;
+            }
+        }
+    }
+    
+    /*.o_ActionTab.vertical {
+        >.o_form_view {
+            @media (min-width: 1534px) {
+                @include form_to_1_column;
+            }
+        }
+        
+    }*/
+}
+
+// grande
+.o_sidebar_right.col-lg-7,
+.o_sidebar_right.col-xl-7 {
+    .o_ActionTab {
+        >.o_list_view {
+            @media (min-width: 992px) and (max-width: 1533px) {
+                @include hide_o_cp_bottom_left;
+            }
+        }
+
+        >.o_form_view {
+            @include form_buttonbox_fix;
+
+            @media (min-width: 992px) and (max-width: 1300px) {
+                @include form_to_1_column;
+            }
+        }
+    }
+}
+
+// general para todos los tamaños, controla los botones del header de formulario
+.o_sidebar_right {
+    .o_ActionTab {
+        >.o_form_view {
+            .o_control_panel {
+                .o_control_panel_main {
+                    // fix altura del panel
+                    .h-lg-100 {
+                        height: unset !important;
+                    }
+                    // fix botones que salen izq. y der.
+                    .o_control_panel_actions {
+                        .o-form-buttonbox.w-md-auto {
+                            max-width: 100% !important;
+                        }
+                    }
+                }
+                // fix poner en 2 filas
+                .o_control_panel_main.flex-lg-nowrap {
+                    flex-wrap: wrap !important;
+                }
+                .o_control_panel_main .o_control_panel_breadcrumbs {
+                    flex: inherit;
+                    >.o_breadcrumb.min-w-0 {
+                        // fix no esconder rueda dentada
+                        min-width: auto !important;
+                    }
+                }
+            }
+        }
+    }
+}

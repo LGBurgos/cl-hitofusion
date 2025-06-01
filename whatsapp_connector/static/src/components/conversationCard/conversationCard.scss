@@ -1,0 +1,141 @@
+
+.o_ConversationCard {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    border: 1px solid $acrux_card_border;
+    background-color: $acrux_card_background;
+    margin-bottom: 4px;
+    margin-left: 4px;
+    padding: 4px;
+    color: var(--body-color);
+    flex-direction: row;
+    touch-action: auto;
+
+    @media (max-width: 768px) {
+        margin: -1px 0 0 -1px;
+        width: 50%;
+    }
+    
+    .o_conv_image {
+        text-align: center;
+        width: 50px;
+        height: 50px;
+
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: relative;
+        }
+        .acrux_facebook,
+        .acrux_messenger,
+        .acrux_instagram,
+        .acrux_whatsapp {
+            background-image: url(/whatsapp_connector/static/src/img/social_icons_v2.png);
+            background-repeat: no-repeat;
+            background-size: 176px 60px;
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            bottom: -16px;
+            right: -16px;
+            transform: scale(0.33);
+        }
+
+        .acrux_facebook {
+            background-position: 0 0;
+        }
+
+        .acrux_messenger {
+            background-position: 0 0;
+        }
+
+        .acrux_instagram {
+            background-position: -59px 0;
+        }
+
+        .acrux_whatsapp {
+            background-position: -118px 0;
+        }
+    }
+ 
+    .o_conv_details {
+        padding-left: 5px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+
+        ul {
+            margin-bottom: 2.5px;
+            padding-left: 0;
+            list-style: none;
+            font-size: 11px;
+        }
+        
+        .o_conv_name {
+            color: inherit;
+            margin-bottom: 0;
+            margin-top: 0;
+
+            span {
+                display: block;
+                width: 150px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
+        .o_freeText {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        ul {
+            li.h5 {
+                    font-weight: normal
+            }
+        }
+    }
+}
+
+.o_sidebar_left {
+    .o_ConversationCard {
+        border:0 !important;
+        margin: 0 !important;
+        padding: 6px 4px 0 4px;
+        @media (max-width: 768px) {
+            margin: 0 !important;
+            width: 100% !important;
+        }
+    }
+    .o_conv_image {
+        width: 40px !important;
+        height: 40px !important;
+        margin: 0 6px;
+        img {
+            height: 40px !important;
+            width: 40px !important;
+        }
+        .acrux_facebook,
+        .acrux_messenger,
+        .acrux_instagram,
+        .acrux_whatsapp {
+            top: 7px !important;
+            left: -16px !important;
+        }
+    }
+    .o_conv_details {
+        border-bottom: 1px solid $acrux_header_border_color;
+        .o_conv_name {
+            span {
+                width: 100%;
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+
+.acrux_Emojis {
+
+    display: flex;
+    max-width: 640px;
+    width: #{"min(80vw, 640px)"};
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    max-height: 80vw;
+    overflow: auto;
+
+    @media (max-width: 474px) {
+        width: #{"min(60vw, 640px)"};
+    }
+
+    .o_acrux_emoji {
+        cursor: pointer;
+        font-size: 1.7em;
+        margin: 2px;
+    }
+}

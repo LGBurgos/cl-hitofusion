@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.MessageMetadata" owl="1">
+        <div class="o_MessageMetadata" t-on-click="openExternalLink"
+            t-att-class="extraClass">
+            <div class="acrux_metadata_media"
+                t-attf-class="{{data?.media?.type === 'audio' ? 'status_audio' : ''}}">
+                <img t-if="urlPreview and data?.media?.type === 'image'" 
+                    t-att-src="urlPreview" alt="Url preview" />
+                <img t-if="urlPreview and data?.media?.type === 'video'" 
+                    t-att-src="urlPreview" alt="Url preview" />
+                <div class="play-button" t-if="urlPreview and data?.media?.type === 'video'" />
+                <AudioPlayer audio="audioObj"
+                    t-if="urlPreview and data?.media?.type === 'audio'" />
+            </div>
+            <div class="acrux_metadata_content">
+                <div class="acrux_metadata_title" t-att-title="data.title">
+                    <span t-out="data.title" />
+                </div>
+                <div class="acrux_metadata_body">
+                    <span t-att-title="data.body" t-esc="data.body" />
+                </div>
+                <div class="acrux_metadata_url">
+                    <span t-out="data.url" />
+                </div>
+            </div>
+        </div>
+    </t>
+    
+</templates>

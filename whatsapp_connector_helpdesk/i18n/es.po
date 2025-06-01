@@ -1,0 +1,54 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * whatsapp_connector_helpdesk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-16 13:34+0000\n"
+"PO-Revision-Date: 2024-02-16 13:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: whatsapp_connector_helpdesk
+#: model_terms:ir.ui.view,arch_db:whatsapp_connector_helpdesk.helpdesk_ticket_view_form
+msgid "<span class=\"o_stat_info\">Send</span>"
+msgstr "<span class=\"o_stat_info\">Enviar</span>"
+
+#. module: whatsapp_connector_helpdesk
+#: model:ir.model.fields,field_description:whatsapp_connector_helpdesk.field_helpdesk_ticket__conversation_id
+msgid "ChatRoom"
+msgstr ""
+
+#. module: whatsapp_connector_helpdesk
+#: model:ir.model,name:whatsapp_connector_helpdesk.model_acrux_chat_conversation
+msgid "ChatRoom Conversation"
+msgstr "Conversación Chat"
+
+#. module: whatsapp_connector_helpdesk
+#: model_terms:ir.ui.view,arch_db:whatsapp_connector_helpdesk.helpdesk_tickets_view_search
+msgid "From ChatRoom"
+msgstr "Desde ChatRoom"
+
+#. module: whatsapp_connector_helpdesk
+#. odoo-javascript
+#: code:addons/whatsapp_connector_helpdesk/static/src/components/tabsContainer/tabsContainer.js:0
+#: code:addons/whatsapp_connector_helpdesk/static/src/components/tabsContainer/tabsContainer.js:0
+#, python-format
+msgid "Helpdesk"
+msgstr "Asistencia"
+
+#. module: whatsapp_connector_helpdesk
+#: model:ir.model,name:whatsapp_connector_helpdesk.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "Ticket de Mesa de Ayuda"
+
+#. module: whatsapp_connector_helpdesk
+#: model:ir.model.fields,field_description:whatsapp_connector_helpdesk.field_acrux_chat_conversation__ticket_id
+msgid "Ticket"
+msgstr ""

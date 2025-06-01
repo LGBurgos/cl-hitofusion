@@ -1,0 +1,30 @@
+.o_ChatTools {
+    align-items: center;
+    padding-right: 10px;
+    border-bottom: 1px solid $acrux_header_border_color;
+    a {
+        margin: 0 3px;
+    }
+}
+
+.o_ChatSearch {
+    margin: 4px;
+    width: 100%;
+    .form-group {
+        .o_search_input {
+            ::placeholder {
+                color: $o-gray-400;
+            }
+            background-color: $acrux_input_background_color;
+            border: 1px solid $o-gray-300;
+            padding: 2px 1px 1px 8px;;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            input {
+                border: 0;
+                background-color: inherit;
+            }
+        }
+    }
+}

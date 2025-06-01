@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--tree -->
+    <record id="acrux_chat_message_list_form" model="ir.ui.view">
+        <field name="name">acrux.chat.message.list.form</field>
+        <field name="model">acrux.chat.message.list</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="button_text" />
+                        <field name="items_ids"
+                            mode="tree,form">
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="name" />
+                                        <field name="button_ids"
+                                            context="{'tree_view_ref':'whatsapp_connector.acrux_chat_message_list_item_button_tree'}" />
+                                    </group>
+                                </sheet>
+                            </form>
+                            <tree>
+                                <field name="name" readonly="1" />
+                                <field name="button_ids" invisible="1" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

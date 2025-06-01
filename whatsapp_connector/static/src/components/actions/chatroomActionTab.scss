@@ -1,0 +1,28 @@
+.o_ActionTab {
+    height: inherit;
+
+    // scroll de todas las vistas en los tabs
+    >div {
+        height: inherit;
+
+        .o_content {
+            height: inherit;
+            overflow: auto;
+
+            .o_list_renderer {
+                height: inherit;
+            }
+        }
+    }
+
+    >div.o_view_controller {
+        display: flex;
+        flex-flow: column nowrap;
+        overflow: hidden;
+
+        // scroll en formulario xxl
+        >.o_form_view_container {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.FormView" t-inherit="web.FormView" t-inherit-mode="extension" owl="1">
+        <xpath expr="(//t[@t-set-slot='control-panel-create-button'])[1]" position="inside">
+            <t t-call="chatroom.FormView.SearchBtn" />
+        </xpath>
+        <xpath expr="(//t[@t-set-slot='control-panel-create-button'])[2]" position="inside">
+            <t t-call="chatroom.FormView.SearchBtn" />
+        </xpath>
+    </t>
+    
+    <t t-name="chatroom.FormView.SearchBtn" owl="1">
+        <t t-if="props.chatroomTab">
+            <t t-if="props.searchButton">
+                <button type="button" class="btn btn-outline-primary o_form_button_search text-nowrap"
+                    data-hotkey="k" t-on-click.stop="props.searchAction">
+                    <t t-if="props.searchButtonString">
+                        <t t-esc="props.searchButtonString" />
+                    </t>
+                    <t t-else="">
+                        Search
+                    </t>
+                </button>
+            </t>
+        </t>
+    </t>
+
+</templates>

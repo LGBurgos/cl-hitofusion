@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatter.Chatroom" owl="1">
+        <div class="o_Chatroom o_ChatterChatroom" t-ref="chatroomRef">
+            <div class="o_sidebar o_sidebar_left col-xl-4 col-lg-4 col-md-4 col-4"
+                t-if="state.conversations.length > 0">
+                <t t-foreach="state.conversations" t-as="conv" t-key="conv.id">
+                    <Conversation selectedConversation="state.selectedConversation"
+                        conversation="conv" />
+                </t>
+            </div>
+            <div class="o_sidebar o_sidebar_content col-xl-8 col-lg-8 col-md-8 col-8"
+                t-if="state.conversations.length > 0">
+                <ConversationThread selectedConversation="state.selectedConversation" />
+            </div>
+            <div t-if="state.conversations.length === 0">
+                No Conversations
+            </div>
+        </div>
+    </t>
+
+</templates>

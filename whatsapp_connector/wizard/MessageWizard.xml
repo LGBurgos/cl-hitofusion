@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="acrux_chat_message_wizard_form" model="ir.ui.view">
+        <field name="name">acrux.chat.message.wizard.form</field>
+        <field name="model">acrux.chat.message.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="top_area" invisible="invisible_top == True">
+                    <group>
+                        <div colspan="2" invisible="partner_id == False">
+                            <field name="partner_id" class="h2"
+                                readonly="1" nolabel="1"
+                                options="{'no_open': True}" />
+                        </div>
+                    </group>
+                    <group class="acrux-editor-highlight">
+                        <div colspan="2">
+                            <span>New number</span>
+                            <field name="new_number" widget="boolean_toggle" class="oe_inline"
+                                nolabel="1" />
+                        </div>
+                        <field name="conversation_id"
+                            colspan="2" nolabel="1"
+                            options="{'no_create': True, 'no_open': True}"
+                            context="{'full_name': True}" placeholder="Select conversation"
+                            invisible="new_number == True"
+                            required="new_number == False" />
+                        <field name="connector_id"
+                            options="{'no_create': True, 'no_open': True}"
+                            domain="[('connector_type', 'in', ['apichat.io', 'gupshup', 'waba_extern'])]"
+                            invisible="new_number == False"
+                            required="new_number == True" />
+                        <field name="number"
+                            invisible="new_number == False"
+                            required="new_number == True" />
+                        <field name="numbers_available"
+                            invisible="new_number == False or numbers_available == False" />
+                        <field name="invisible_top" invisible="1" />
+                        <field name="conn_type" invisible="1" />
+                        <field name="conv_opt_in" widget="boolean_toggle"
+                            readonly="1"
+                            invisible="conn_type != 'gupshup'" />
+                        <button name="req_opt_in" type="object" string="Request Opt-in" class="btn-primary"
+                            invisible="conv_opt_in == True or conn_type != 'gupshup'" />
+                    </group>
+                </group>
+                <group string="Message" name="text_area" col="4">
+                    <field name="template_id" class="acrux-editor-highlight"
+                        options="{'no_open': True, 'no_create': True}"
+                        context="{'default_model': model, 'default_body_html': text, 'default_subject': False}"
+                        invisible="invisible_template == True" />
+                    <field name="text" class="acrux-editor-highlight"
+                        colspan="4" nolabel="1" force_save="1" />
+                </group>
+                <group name="buttons" col="4">
+                    <label for="extra_text"
+                        colspan="4"
+                        invisible="extra_text == False" />
+                    <field name="extra_text"
+                        colspan="4" nolabel="1"
+                        readonly="1"
+                        invisible="extra_text == False" />
+                </group>
+                <group name="others" col="4">
+                    <field name="attachment_ids" widget="many2many_binary" string="Attach a file"
+                        colspan="2" nolabel="1" />
+                    <field name="invisible_template" invisible="1" />
+                    <field name="model" invisible="1" />
+                    <field name="res_id" invisible="1" />
+                </group>
+                <footer>
+                    <button class="oe_highlight" type="object" name="send_message_wizard">Send</button>
+                    <button class="oe_link" special="cancel">Cancel</button>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="acrux_chat_message_wizard_action" model="ir.actions.act_window">
+        <field name="name">Send ChatRoom Message</field>
+        <field name="res_model">acrux.chat.message.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'acrux_from_message_wizard': True}</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,52 @@
+.o_ConversationList {
+    &.simple {
+        .acrux_hide_on_modeSimple {
+            display: none !important;
+        }
+    }
+
+    .acrux_group_0,
+    .acrux_group_1 {
+        color: cornflowerblue;
+        font-weight: bold;
+        margin-left: 4px;
+        margin-top: 6px;
+
+        >div {
+            border-top: 4px solid cornflowerblue;
+            padding-top: 4px;
+        }
+
+        i {
+            float: left;
+            margin-left: -2px;
+            margin-top: -13px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    }
+
+    .acrux_group_1 {
+        font-weight: normal;
+        margin: 4px 8px -4px;
+        text-align: right;
+
+        >div {
+            border-top-width: 0;
+        }
+
+        i {
+            display: none;
+            //margin-left: -3px;
+            //margin-top: -14px;
+        }
+    }
+
+    
+    .o_chatlist {
+        >div:first-child {
+            max-height: 50%;
+        }
+    }
+    
+}

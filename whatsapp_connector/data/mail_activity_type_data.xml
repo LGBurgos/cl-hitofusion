@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="chatroom_activity_type" model="mail.activity.type">
+            <field name="name">Chatroom</field>
+            <field name="category">chatroom_message</field>
+            <field name="res_model">acrux.chat.conversation</field>
+            <field name="chaining_type">suggest</field>
+            <field name="icon">fa-comment</field>
+        </record>
+
+    </data>
+</odoo>

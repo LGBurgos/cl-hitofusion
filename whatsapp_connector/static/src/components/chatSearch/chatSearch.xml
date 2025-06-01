@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    
+    <t t-name="chatroom.ChatSearch" owl="1">
+        <div class="o_ChatSearch">
+            <div class="form-group">
+                <div class="o_search_input">
+                    <input type="text"
+                        t-att-placeholder="props.placeHolder"
+                        t-on-keypress="onKeypress" t-ref="inputSearch" />
+                    <button class="btn btn-sm btn-link fa fa-search o_button_search"
+                        type="button" t-on-click="onSearch" />
+                    <button class="btn btn-sm btn-link fa fa-trash o_button_clean"
+                        type="button" t-on-click="onClean" />
+                    <t t-slot="children" />
+               </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

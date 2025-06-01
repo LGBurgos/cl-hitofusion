@@ -1,0 +1,237 @@
+.acrux_Message {
+    padding: 5px 9px 0;
+    box-sizing: border-box;
+    border-radius: 7.5px;
+    max-width: 85%;
+    width: fit-content;
+    font-size: 13px;
+    margin: 3px 10px;
+    line-height: 19px;
+    color: $black;
+    display: block;
+    clear: both;
+    position: relative;
+
+    &:not(.o_chat_message_info) {
+        min-width: 70px;
+        box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.1);
+        border: 1px solid;
+    }
+
+    a.o_acrux_translate {
+        color: $o-gray-500;
+
+        &:hover {
+            color: $o-enterprise-action-color;
+        }
+    }
+
+    .o_chat_space {
+        display: inline-block;
+        vertical-align: middle;
+        width: 55px;
+        height: 13px;
+    }
+
+    .o_chat_tool_and_hour {
+        gap: 6px;
+        margin-right: -4px;
+        margin-top: -13px;
+    }
+
+    .o_chat_msg_hour {
+        font-size: 11px;
+        white-space: nowrap;
+        color: $o-gray-500;
+    }
+
+    .o_message_title {
+        font-weight: bold;
+        margin-bottom: 0.5em;
+        border-bottom: 1.9px solid black;
+        color: #959595;
+        font-size: 80%;
+    }
+
+    .o_avatar_container {
+        position: absolute;
+        margin-left: -3em;
+
+        span:last-of-type {
+            display: none;
+        }
+    }
+
+    .o_chat_msg_content {
+        overflow: hidden;
+        display: block;
+        width: 100%;
+        max-height: 100%;
+
+        .o_chat_message_content {
+            display: flex;
+            max-width: 100%;
+            flex-flow: column;
+        }
+
+        span {
+            white-space: break-spaces;
+            word-wrap: break-word;
+        }
+
+        .o_acrux_location_img {
+            height: 150px;
+            width: 250px;
+
+            >a>img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .product_img {
+            max-height: 100px;
+        }
+
+        .sticker {
+            height: 150px;
+            width: 150px;
+        }
+
+        .o_AttachmentCard,
+        .o_AttachmentCard .o_AttachmentCard_asideItem {
+            background-color: rgba(120, 120, 120, 0.15) !important;
+        }
+
+        .o_acrux_chat_message_buttons button {
+            background-color: #4CAF50;
+            /* Green background */
+            border: none;
+            /* Remove border */
+            color: white;
+            /* White text */
+            text-align: center;
+            /* Center text */
+            text-decoration: none;
+            /* Remove underline */
+            display: inline-block;
+            /* Make it inline */
+            border-radius: 5px;
+            /* Add some border radius */
+            outline: none;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        .o_acrux_chat_message_buttons button:hover {
+            background-color: #3e8e41;
+            /* Darker green on hover */
+            cursor: pointer;
+            /* Show pointer cursor on hover */
+            color: white;
+            /* White text */
+        }
+
+        .o_acrux_chat_message_list_chat {
+            display: flex;
+            flex-direction: column;
+            margin-top: 0.8em;
+
+            .o_acrux_chat_list_button {
+                border-top: 1.9px solid black;
+                margin-top: 0.8em;
+                text-align: center;
+            }
+        }
+    }
+
+    .o_chat_message_options {
+        position: absolute;
+        top: 1px;
+        right: 2px;
+        opacity: 0.618377;
+        cursor: pointer;
+        z-index: 10;
+        display: none;
+        background: rgba(0, 0, 0, 0.2);
+        padding-right: 2px;
+        padding-left: 2px;
+    }
+
+    .o_chat_msg_deleted {
+        font-style: italic;
+        opacity: 0.6;
+        text-decoration: line-through;
+    }
+
+    &.o_chat_message_out {
+        background-color: $acrux_message_out_background_color;
+        border-color: $acrux_message_out_border_color;
+        float: right;
+    }
+
+    &.o_chat_message_in {
+        background-color: $acrux_message_in_background_color;
+        border-color: $acrux_message_in_border_color;
+        float: left;
+    }
+
+    &.o_message_error {
+        border: 2px solid red !important;
+    }
+
+    &.o_chat_message_info {
+        color: $o-gray-500;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        text-align: center;
+        background: none;
+        box-shadow: none;
+        padding: 2px 9px;
+
+        >span {
+            font-size: 0.9em;
+            border-radius: 7.5px;
+            text-align: center;
+            width: fit-content;
+            display: inline-block;
+        }
+    }
+
+    &:hover {
+        .o_chat_message_options {
+            display: block;
+        }
+    }
+
+    &.active_quote {
+        border: 3px solid #5fbd16;
+    }
+
+}
+
+.o_message_summary {
+    display: flex;
+    font-size: 0.875em;
+    color: $o-gray-600;
+    flex: 1;
+    overflow: hidden;
+    justify-content: space-between;
+
+    .o_msg_summary_content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        max-width: 300px;
+        flex: 1;
+    }
+
+    .o_msg_summary_hour {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100px;
+    }
+}

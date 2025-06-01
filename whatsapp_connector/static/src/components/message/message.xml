@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.Message" owl="1">
+        <t t-set="message" t-value="props.message" />
+        <div class="acrux_Message" t-attf-class="o_chat_message_{{message.ttype}}
+            {{message.errorMsg ? 'o_message_error' : ''}}
+            {{message.ttype.startsWith('info') ? 'o_chat_message_info' : message.fromMe ? 'o_chat_message_out' : 'o_chat_message_in'}}"
+            t-att-data-id="message.id">
+            <t t-if="message.ttype.startsWith('info')">
+                <span t-out="message.textHTML" />
+            </t>
+            <t t-else="">
+                <div class="o_avatar_container" t-on-click="openOdooChat"
+                    t-if="message.fromMe and message.env.getShowUser() and message.createUid.id">
+                    <Many2OneAvatarField t-props="avatarProps" />
+                </div>
+                <div class="o_message_title" t-if="message.hasTitle()">
+                    <t t-call="chatroom.MessageTitle" />
+                </div>
+                <div class="acrux_chat_message_quote" t-if="props.message.quote" t-on-click.capture="clickQuoteMessage">
+                    <Message message="props.message.quote" noAction="true" />
+                </div>
+                <div class="o_chat_msg_content" t-attf-class="{{messageCssClass()}}">
+                    <MessageMetadata type="message.metadataType"
+                        metadataJson="message.metadataJson"
+                        t-if="['apichat_preview_post', 'ad'].includes(message.metadataType)" />
+                    <div class="o_chat_message_content">
+                        <t t-call="chatroom.MessageContent" />
+                        <div>
+                            <t t-if="['audio', 'video'].includes(message.ttype) and env.canTranscribe() and !props.noAction">
+                                <a href="#" class="mt-2 fw-bold o_acrux_transcribe" title="Transcribe to text"
+                                    t-on-click="onTranscribe">
+                                    Transcribe
+                                </a>
+                            </t>
+                            <span t-if="message.transcription" t-out="message.transcription"
+                                class="fw-light o_acrux_transcription" />
+                            <span t-if="message.transcription and ! message.traduction" class="o_chat_space" />
+                        </div>
+                        <div>
+                            <span t-if="message.traduction" t-out="message.traduction"
+                                class="fw-light text-muted o_acrux_traduction" />
+                            <span t-if="message.traduction" class="o_chat_space" />
+                        </div>
+                    </div>
+                    <t t-call="chatroom.MessageButtons" t-if="message.buttons.length > 0" />
+                    <t t-call="chatroom.MessageList" t-if="message.chatList.id" />
+                    <span t-if="message.ttype != 'text' and ! message.transcription and ! message.traduction"
+                          class="o_chat_space" />
+                </div>
+                <span class="o_chat_message_options" t-on-click="showMessageOption" t-if="!props.noAction"
+                    t-ref="optionsRef">
+                    <svg viewBox="0 0 18 18" width="18" height="18">
+                        <path fill="currentColor" d="M3.3 4.6L9 10.3l5.7-5.7 1.6 1.6L9 13.4 1.7 6.2l1.6-1.6z"></path>
+                    </svg>
+                </span>
+                <div class="o_chat_tool_and_hour d-flex justify-content-end align-items-baseline">
+                    <t t-if="canTranslate and !props.noAction">
+                        <a href="#" class="o_acrux_translate" title="Translate"
+                            t-on-click="onTranslate">
+                            <i class="fa fa-language" />
+                        </a>
+                    </t>
+                    <div class="o_chat_msg_hour">
+                        <t t-out="message.hour" />
+                    </div>
+                    <span t-if="message.errorMsg" class="o_message_error_text" t-att-title="message.errorMsg">
+                        <svg height="10" width="10" viewBox="0 0 16 16">
+                            <g fill="none" fill-rule="evenodd">
+                                <path d="M0 0h16v16H0z" />
+                                <path d="M8 16A8 8 0 118 0a8 8 0 010 16zM8 2a1.5 1.5 0 00-1.5 1.5v5a1.5 1.5 0 003 0v-5A1.5 1.5 0 008 2zm0 12a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="#f03d25" />
+                            </g>
+                        </svg>
+                    </span>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="chatroom.MessageTitle" owl="1">
+        <t t-out="message.authorName" />
+    </t>
+
+    <t t-name="chatroom.MessageContent" owl="1">
+        <t t-if="message.ttype == 'text'">
+            <div>
+                <span t-out="message.textHTML" />
+                <span t-if="! message.transcription and ! message.traduction" class="o_chat_space" />
+            </div>
+        </t>
+
+        <t t-elif="message.ttype == 'location'">
+            <t t-if="message.location">
+                <div class="o_acrux_location_img">
+                    <a t-attf-href="{{message.location.mapUrl}}" target="_blank">
+                        <img src="/whatsapp_connector/static/src/img/google_map.jpg" />
+                    </a>
+                </div>
+                <div>
+                    <a t-attf-href="{{message.location.mapUrl}}" target="_blank"
+                        t-attf-title="{{message.location.displayName}}">
+                        <t t-esc="message.location.displayName" />
+                    </a>
+                    <div t-attf-title="{{message.location.address}}">
+                        <t t-esc="message.location.address" />
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                Location not found.
+            </t>
+        </t>
+
+        <t t-elif="message.isProductType">
+            <div class="d-flex position-relative flex-shrink-0 mw-100 mb-1 me-1">
+                <t t-if="message.resModelObj.id">
+                    <img class="img img-fluid my-0 product_img" t-attf-src="{{message.resModelObj.src}}" />
+                </t>
+                <t t-else="">
+                    File not found
+                </t>
+            </div>
+            <t t-if="message.text">
+                <span t-out="message.textHTML" />
+            </t>
+        </t>
+
+        <t t-elif="message.ttype == 'audio'">
+            <t t-if="message.resModelObj and message.resModelObj.src">
+                <AudioPlayer audio="message.resModelObj" />
+            </t>
+            <t t-else="">
+                File not found
+            </t>
+            <t t-if="message.text">
+                <span t-out="message.textHTML" />
+            </t>
+        </t>
+
+        <t t-elif="message.ttype === 'url'">
+            <t t-if="!message.urlDue and message.resModelObj.mime and message.resModelObj.data">
+                <t t-set="mime" t-value="message.resModelObj.mime" />
+                <t t-set="data" t-value="message.resModelObj.data" />
+                <t t-if="message.resModelObj.mime.startsWith('image')">
+                    <div href=""
+                        t-attf-style="background-image: url('data:{{mime}};base64,{{data}}'); background-size: 200px; cursor: pointer; height: 100px;width: 100px;"
+                        t-attf-data-mimetype="{{mime}}"
+                        class="o_AttachmentImage o_image o-attachment-viewable o-details-overlay o-medium"
+                        t-on-click="openStoryImage">
+                    </div>
+                </t>
+                <t t-elif="message.resModelObj.mime.startsWith('video')">
+                    <video width="200" height="200" controls="true" controlsList="nodownload">
+                        <source t-attf-src="data:{{mime}};base64,{{data}}" t-attf-type="{{mime}}" />
+                    </video>
+                </t>
+                <t t-else="">
+                    <i>Story not found.</i>
+                </t>
+            </t>
+            <t t-else="">
+                <i>Story not found.</i>
+            </t>
+        </t>
+
+        <t t-elif="message.ttype == 'sticker'">
+            <t t-if="message.resModelObj and message.resModelObj.src">
+                <img class="img img-fluid sticker" alt="Sticker" t-attf-src="{{message.resModelObj.src}}" />
+            </t>
+            <t t-else="">
+                Sticker not found
+            </t>
+        </t>
+
+        <t t-else="">
+            <t t-if="message.resModelObj">
+                <AttachmentList
+                    unlinkAttachment="() => {}"
+                    attachments="[message.resModelObj]"
+                    imagesHeight="150"/>
+            </t>
+            <t t-else="">
+                File not found
+            </t>
+            <t t-if="message.text">
+                <span t-out="message.textHTML" />
+            </t>
+        </t>
+    </t>
+
+    <t t-name="chatroom.MessageSummary" owl="1">
+        <div class="o_message_summary">
+            <div class="o_msg_summary_content">
+                <t t-if="message.ttype == 'image'">
+                    <i class="fa fa-camera" style="margin-right: 0.4rem;"/>
+                </t>
+                <t t-elif="message.ttype != 'text'">
+                    <i class="fa fa-download" style="margin-right: 0.4rem;"/>
+                </t>
+                <t t-if="message.text">
+                    <span t-out="message.textHTML" />
+                </t>
+            </div>
+            <div class="o_msg_summary_hour text-end mx-1" t-att-title="message.dateFullTime">
+                <RelativeTime datetime="message.dateMessage" />
+            </div>
+        </div>
+    </t>
+
+    <t t-name="chatroom.MessageButtons" owl="1">
+        <div class="o_acrux_chat_message_buttons">
+            <t t-foreach="message.buttons" t-as="button" t-key="button.btn_id">
+                <button class="btn" t-att-data-id="button.btn_id" t-att-data-type="button.ttype">
+                    <span t-out="button.text" />
+                </button>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="chatroom.MessageList" owl="1">
+        <div class="o_acrux_chat_message_list_chat text-center">
+            <strong t-out="message.chatList.name" />
+            <div class="o_acrux_chat_list_button">
+                <i class="fa fa-list" />
+                <span t-out="message.chatList.buttonText" />
+            </div>
+        </div>
+    </t>
+
+</templates>

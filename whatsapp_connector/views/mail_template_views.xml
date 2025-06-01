@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- form -->
+    <record id="email_template_form" model="ir.ui.view">
+        <field name="name">mail.email_template_form.acrux.chat.form</field>
+        <field name="model">mail.template</field>
+        <field name="inherit_id" ref="mail.email_template_form" />
+        <field name="arch" type="xml">
+            <field name="attachment_ids" position="after">
+                <div>
+                    <field name="is_chatroom_template" invisible="1" />
+                    <label for="button_ids"
+                        invisible="is_chatroom_template != True" />
+                    <field name="button_ids"
+                        invisible="is_chatroom_template != True"
+                        context="{'tree_view_ref':'whatsapp_connector.acrux_chat_template_button_tree'}" />
+                    <label for="chat_list_id"
+                        invisible="is_chatroom_template != True" />
+                    <field name="chat_list_id"
+                        invisible="is_chatroom_template != True"
+                        context="{'form_view_ref':'whatsapp_connector.acrux_chat_message_list_form'}" />
+                </div>
+                <div style="margin-top: 16px:">
+                    <i>Buttons and List only available for Gupshup.</i>
+                </div>
+            </field>
+        </field>
+    </record>
+
+</odoo>

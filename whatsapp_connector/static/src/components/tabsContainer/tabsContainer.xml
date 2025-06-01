@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.TabsContainer" owl="1">
+        <NotebookChat className="'o_TabsContainer ' + props.className"
+            onPageUpdate="tabId => this.env.chatBus.trigger('selectTab', tabId)"
+            defaultPage="props.tabSelected"
+            orientation="props.user.tabOrientation">
+            <t t-set-slot="tab_default_answer" isVisible="true"
+                name="'tab_default_answer'" icon="'fa fa-bolt'"
+                id="'tab_default_answer'" title="titles.tab_default_answer">
+                <div class="o_table_default">
+                    <t t-foreach="defaultAnswers" t-as="answer" t-key="answer.id">
+                        <DefaultAnswer defaultAnswer="answer"
+                            selectedConversation="props.selectedConversation" />
+                    </t>
+                </div>
+            </t>
+            <t t-set-slot="tab_conv_info" isVisible="true"
+                name="'tab_conv_info'" icon="'fa fa-info-circle'"
+                id="'tab_conv_info'" title="titles.tab_conv_info">
+                <div class="o_InfoForm">
+                    <t t-set="tabComp" t-value="'ConversationForm'" />
+                    <t t-call="chatroom.TabWithMyConversation" />
+                </div>
+            </t>
+            <t t-set-slot="tab_partner" isVisible="true"
+                name="'tab_partner'" icon="'fa fa-vcard-o'"
+                id="'tab_partner'" title="titles.tab_partner">
+                <div class="o_PartnerForm">
+                    <t t-set="tabComp" t-value="'PartnerForm'" />
+                    <t t-call="chatroom.TabWithConversation" />
+                </div>
+            </t>
+            <t t-set-slot="tab_ai_inteface" isVisible="true"
+                name="'tab_ai_inteface'" iconHtml="comp.AiIntefaceForm.iconHtml"
+                id="'tab_ai_inteface'" title="titles.tab_ai_inteface">
+                <div class="o_AiIntefaceForm">
+                    <t t-set="tabComp" t-value="'AiIntefaceForm'" />
+                    <t t-call="chatroom.TabWithMyConversation" />
+                </div>
+            </t>
+            <t t-set-slot="tab_product_grid" isVisible="true"
+                name="'tab_product_grid'" icon="'fa fa-cubes'"
+                id="'tab_product_grid'" title="titles.tab_product_grid">
+                <ProductContainer selectedConversation="props.selectedConversation"/>
+            </t>
+            <t t-set-slot="tab_conv_panel" isVisible="true"
+                name="'tab_conv_panel'" icon="'fa fa-clock-o'"
+                id="'tab_conv_panel'" title="titles.tab_conv_panel">
+                <div class="o_PanelForm">
+                    <t t-set="tabComp" t-value="'ConversationPanelForm'" />
+                    <t t-component="comp[tabComp]" t-props="this[`tab${tabComp}Props`]" />
+                </div>
+            </t>
+            <t t-set-slot="tab_conv_kanban" isVisible="true"
+                name="'tab_conv_kanban'" icon="'fa fa-th-large'"
+                id="'tab_conv_kanban'" title="titles.tab_conv_kanban">
+                <div class="o_KanbanForm">
+                    <t t-set="tabComp" t-value="'ConversationKanban'" />
+                    <t t-component="comp[tabComp]" t-props="this[`tab${tabComp}Props`]" />
+                </div>
+            </t>
+        </NotebookChat>
+    </t>
+
+    <t t-name="chatroom.TabWithMyConversation" owl="1">
+        <t t-if="props.selectedConversation">
+            <t t-if="props.selectedConversation.isCurrent()">
+                <t t-component="comp[tabComp]" t-props="this[`tab${tabComp}Props`]" />
+            </t>
+            <t t-else="">
+                <t t-set="notYourConv" t-value="true" />
+                <t t-call="chatroom.EmptyTab" />
+            </t>
+        </t>
+        <t t-else="">
+            <t t-call="chatroom.EmptyTab" />
+        </t>
+    </t>
+  
+    <t t-name="chatroom.TabWithConversation" owl="1">
+        <t t-if="props.selectedConversation">
+            <t t-component="comp[tabComp]" t-props="this[`tab${tabComp}Props`]" />
+        </t>
+        <t t-else="">
+            <t t-call="chatroom.EmptyTab" />
+        </t>
+    </t>
+  
+    <t t-name="chatroom.EmptyTab" owl="1">
+        <div class="o_EmptyTab">
+            <span>
+                <t t-if="message"> <t t-esc="message" /> </t>
+                <t t-elif="notYourConv">You are not attending this conversation.</t>
+                <t t-else="">You must select a conversation first.</t>
+            </span>
+        </div>
+    </t>
+
+</templates>

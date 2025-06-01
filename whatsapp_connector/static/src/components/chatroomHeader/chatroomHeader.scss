@@ -1,0 +1,11 @@
+.o_ChatroomHeader {
+    min-height: 42px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 6px 0 6px;
+    align-items: center;
+    color: var(--body-color);
+    overflow: hidden;
+    flex-wrap: nowrap;
+    flex: 0 1 42px;
+}

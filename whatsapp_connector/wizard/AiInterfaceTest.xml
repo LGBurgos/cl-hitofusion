@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_whatsapp_connector_ai_interface_test_form">
+        <field name="name">acrux.chat.ai.interface.test.form</field>
+        <field name="model">acrux.chat.ai.interface.test</field>
+        <field name="inherit_id" ref="whatsapp_connector.view_whatsapp_connector_ai_interface_base_form" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <group name="config" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </group>
+            <group name="command" position="attributes">
+                <attribute name="colspan">12</attribute>
+            </group>
+            <field name="hide_req_text" position="before">
+                <field name="file_attach_name" force_save="1" readonly="1" invisible="1" />
+                <field name="file_attach" filename="file_attach_name"
+                    invisible="operation_key not in ['audio_transcriptions']" />
+            </field>
+            <field name="res_text" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <form position="inside">
+                <footer>
+                    <button name="action_cancel" string="Close" type="object" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

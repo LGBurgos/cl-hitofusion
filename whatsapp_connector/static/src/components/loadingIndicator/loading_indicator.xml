@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.LoadingIndicator">
+        <div t-att-class="state.show ? 'acrux_LoadingIndicator fixed-top d-flex justify-content-center align-items-center flex-column vh-100' : ''">
+            <Transition visible="state.show" name="'o-fade'" t-slot-scope="transition" leaveDuration="400">
+                <span class="o_loading_indicator" t-att-class="transition.className">Loading</span>
+            </Transition>
+        </div>
+    </t>
+
+</templates>

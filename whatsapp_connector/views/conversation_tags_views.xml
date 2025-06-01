@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_tag_search">
+        <field name="name">acrux.chat.conversation.tag.search</field>
+        <field name="model">acrux.chat.conversation.tag</field>
+        <field name="arch" type="xml">
+            <search string="Tag">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_conversation_tag_inline_tree">
+        <field name="name">acrux.chat.conversation.tag.inline.tree</field>
+        <field name="model">acrux.chat.conversation.tag</field>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="name" />
+                <field name="color" widget="color_picker" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="view_whatsapp_connector_conversation_tag_action">
+        <field name="name">Tag</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">acrux.chat.conversation.tag</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+</odoo>

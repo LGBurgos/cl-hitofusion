@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.TabsContainer" t-inherit="whatsapp_connector.chatroom.TabsContainer" t-inherit-mode="extension" owl="1">
+        <xpath expr="//t[@t-set-slot='tab_partner']" position="after">
+            <t t-set-slot="tab_helpdesk" isVisible="env.helpdeskAllowed()"
+                name="'tab_helpdesk'" icon="'fa fa-life-ring'"
+                id="'tab_helpdesk'" title="titles.tab_helpdesk">
+                <div class="o_HelpdeskForm">
+                    <t t-set="tabComp" t-value="'HelpdeskForm'" />
+                    <t t-call="chatroom.TabWithMyConversation" />
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

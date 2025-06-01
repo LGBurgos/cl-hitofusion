@@ -1,0 +1,38 @@
+
+.o_ConversationThread {
+    flex-direction: column;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    background-color: $acrux_content_background_color;
+    padding-top: 0.5em;
+    border-left: 1px solid $acrux_header_border_color;
+    border-right: 1px solid $acrux_header_border_color;
+
+    
+    .o_acrux_date {
+        display: block;
+        clear: both;
+        text-align: center;
+        font-size: 0.9em;
+        border-radius: 7.5px;
+        padding: 5px 9px;
+
+        > span {
+            margin: 3px 9px;
+            padding: 3px 12px 4px;
+            background-color: $o-gray-100;
+            border-radius: 14px;
+            border: 1px solid $o-gray-300;
+        }
+    }
+}
+
+.o_ConversationThread.drop-active {
+    @extend %-drop-active;
+}
+
+.o_ConversationThread.drop-hover {
+    @extend %-drop-hover;
+}

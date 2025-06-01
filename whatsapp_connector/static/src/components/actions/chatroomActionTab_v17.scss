@@ -1,0 +1,20 @@
+.o_ActionTab {
+    .o_form_view {
+
+        .o_breadcrumb {
+
+            // ocultar el nombre del formulario
+            .o_last_breadcrumb_item {
+                display: none !important;
+            }
+        }
+
+        .o_control_panel_main {
+
+            // ocultar el panel de navegacion
+            .o_control_panel_navigation {
+                display: none !important;
+            }
+        }
+    }
+}

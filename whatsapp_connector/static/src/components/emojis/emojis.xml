@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.Emojis" owl="1">
+        <div class="acrux_Emojis m-0" t-ref="emoji" t-on-mouseleave="onMouseLeave">
+            <t t-foreach="data" t-as="emoji" t-key="emoji">
+                <span t-att-data-source="emoji" class="o_acrux_emoji"
+                    t-on-click="props.onClick">
+                    <t t-esc="emoji" />
+                </span>
+            </t>
+        </div>
+    </t>
+
+</templates>

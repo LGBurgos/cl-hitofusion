@@ -1,0 +1,154 @@
+// General para usar fuera de Chatroom (Color de fonde input)
+.acrux-editor-highlight {
+    textarea, input, select.o_input {
+        background-color: rgba(95, 172, 251, 0.07);
+    }
+}
+
+.o_Chatroom {
+
+    // chat.panel
+    .acrux_chat_panel_planned {
+        @extend .bg-success;
+        border: 1px solid var(--bs-success-rgb) !important;
+    }
+    .acrux_chat_panel_overdue {
+        @extend .bg-danger;
+        border: 1px solid var(--bs-danger-rgb) !important;
+    }
+    .acrux_chat_panel_today {
+        @extend .bg-warning;
+        border: 1px solid var(--bs-warning-rgb) !important;
+    }
+
+    // Estilo: Avatar con texto a la derecha
+    .acrux_avatar_container {
+        display: flex;
+        align-items: flex-start;
+        .acrux_avatar_img {
+            padding-right: 1rem;
+            background-color: rgba(0,0,0,0);
+            min-width: 80px;
+            max-width: fit-content;
+            img {
+                max-height: 96px;
+                border-radius: 50%;
+                border: 1px solid $o-gray-200;
+            }
+        }
+        .acrux_avatar_content {
+            line-height: normal;
+            width: max-content;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            .btn-link {
+                padding: 0 0.2rem 0 0;
+                align-self: start;
+                margin-top: -1px;
+            }
+            >div {
+                display: flex;
+                flex-wrap: nowrap;
+                text-wrap: nowrap;
+                .o_input {
+                    width: auto;
+                }
+            }
+        }
+    }
+
+    // CHATTER
+    .o-mail-Form-chatter {
+        // Esconde botón Whatsapp nativo
+        .o-mail-Chatter-topbar {
+            button:has(i.fa-whatsapp) {
+                display: none;
+            }
+        }
+    }
+
+    // ocultar breadcrumb de todas las vistas soportadas
+    >.o_kanban_view,
+    >.o_list_view,
+    >.o_form_view {
+        .breadcrumb,
+        .o_cp_bottom_left>.o_cp_buttons {
+            display: none;
+        }
+    }
+
+    // cambios solo vista formulario.
+    .o_form_view {
+
+        // mostrar breadcrumb porque el formulario tiene boton de guardar y crear
+        .breadcrumb {
+            display: flex;
+
+            .breadcrumb-item {
+                display: none !important; // ocultar el breadcrumb
+
+                // ocultar el nombre del formulario
+                >span {
+                    display: none !important;
+                }
+
+                // oculta cuando no se ha guardado el formulario y dice unknown
+                >em {
+                    display: none !important;
+                }
+            }
+
+            // copiado del base, ocular el slash del breadcrum
+            .breadcrumb-item+.breadcrumb-item::before {
+                display: none !important;
+            }
+        }
+
+        // retoque estético al formulario
+        .o_form_sheet_bg {
+            background-color: unset;
+            border: 0;
+            padding-left: 0;
+
+            >.o_form_sheet {
+                box-shadow: none;
+                margin-top: 0;
+                border: 0;
+                button.btn-link {
+                    font-weight: normal;
+                }
+                textarea.o_input {
+                    font-style: oblique;
+                }
+
+                // Título de grupos
+                .o_horizontal_separator.fw-bolder {
+                    opacity: 0.8;
+                    font-weight: 400 !important;
+                }
+
+                // Título de campos
+                --text-opacity: 0.5;  // Varias clases lo usan
+                .o_wrap_label .o_form_label {
+                    font-weight: normal;
+                }
+                // input's (.o_readonly_modifier es los solo lectura)
+                .o_input,
+                .o_searchview_input {
+                    font-weight: 300;
+                    background-color: rgba(95, 172, 251, 0.07);
+                }
+
+                .hide_label {
+                    display: none;
+                }
+                .pre_style {
+                    white-space: pre;
+                }
+
+            }
+        }
+    }
+
+}

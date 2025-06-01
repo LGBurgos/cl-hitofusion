@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.MessageOptions" owl="1">
+        <div class="o_MessageOptions dropdown-content">
+            <span t-if="props.message.canBeAnswered()"
+                t-on-click="answerMessage">
+                Answer
+            </span>
+            <span t-if="props.message.canBeDeleted()"
+                t-on-click="deleteMessageDialog">
+                Delete
+            </span>
+        </div>
+    </t>
+
+    <t t-name="chatroom.DeleteMessage" owl="1">
+        <Dialog title="props.title">
+            Do you want delete this message?
+            <t t-set-slot="footer">
+                <div>
+                    <button class="btn btn-primary me-3" t-on-click="deleteForMe">
+                        Delete for me
+                    </button>
+                    <button class="btn btn-primary me-3" t-on-click="deleteForAll"
+                        t-if="props.allowDeleteAll">
+                        Delete for all
+                    </button>
+                    <button class="btn btn-secondary o-default-button" t-on-click="props.close">
+                        Cancel
+                    </button>
+                </div>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

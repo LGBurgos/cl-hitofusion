@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.ConversationThread" owl="1">
+        <div class="o_ConversationThread" t-ref="threadRef" t-on-scroll="syncMoreMessage">
+            <t t-if="props.selectedConversation">
+                <t t-set="lastDate" t-value="null" />
+                <t t-foreach="props.selectedConversation.messages" t-as="msg" t-key="msg.id">
+                    <t t-set="currentDate" t-value="msg.dateFull" />
+                    <t t-if="lastDate !== currentDate">
+                        <div class="o_acrux_date" t-att-title="msg.date">
+                            <span t-esc="msg.dateFull"/>
+                        </div>
+                    </t>
+                    <t t-set="lastDate" t-value="currentDate" />
+                    <Message message="msg" />
+                </t>
+            </t>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.DefaultAnswer" owl="1">
+        <div class="o_DefaultAnswer">
+            <span>
+                <i class="fa fa-2x fa-telegram text-primary" t-on-click="sendAnswer"/>
+            </span>
+            <span>
+                <t t-esc="props.defaultAnswer.name" />
+            </span>
+        </div>
+    </t>
+
+</templates>

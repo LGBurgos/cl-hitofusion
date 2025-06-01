@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.ConversationList" owl="1">
+        <div class="o_ConversationList flex-grow-1 d-flex flex-column overflow-hidden w-100"
+            t-ref="containerRef">
+            <div class="d-flex my-1 px-1">
+                <ChatSearch placeHolder="conversationFilterHolder"
+                    searchEvent="'searchConversations'"
+                    cleanEvent="'cleanSearch'">
+                    <t t-set-slot="children">
+                        <button class="btn btn-sm btn-link fa fa-user-plus" type="button" title="Create Conversation"
+                            t-on-click="createConversation" />
+                    </t>
+                </ChatSearch>
+                <i class="navbar-toggler-right d-md-none text-primary fa fa-chevron-circle-right ms-3"
+                    t-on-click="props.mobileNavigate"/>
+            </div>
+            <div class="d-flex justify-content-end pb-2 o_ChatTools">
+                <a role="button"
+                    class="link-primary ms-1 me-auto"
+                    t-on-click="changeViewMode"
+                    title="Simple or Full View"
+                    t-attf-class="{{state.modeSimple ? 'opacity-100' : 'opacity-50'}}">
+                    <i class="fa fa-fw fa-lg text-danger fa-compress" role="img" />
+                </a>
+                <a role="button"
+                    class="link-primary"
+                    filter-key="filterMine"
+                    t-on-click="onFilter"
+                    title="Filter mine or all conversations">
+                    <t t-if="state.filterMine">Mine</t>
+                    <t t-if="!state.filterMine">All</t>
+                </a>
+                <a role="button"
+                    class="link-primary"
+                    t-on-click="onOrder"
+                    t-attf-title="{{ getSortTitle(state.conversationOrder.current) }}">
+                    <i t-attf-class="fa fa-fw fa-lg {{ getSortIcon(state.conversationOrder.current) }}" role="img" />
+                </a>
+                <a role="button"
+                    filter-key="filterActivity"
+                    t-on-click="onFilter"
+                    t-attf-class="{{state.filterActivity ? 'opacity-100' : 'opacity-50'}}"
+                    title="Filter by defeated activities">
+                    <i class="fa fa-fw fa-lg text-danger fa-clock-o" role="img" />
+                </a>
+                <a role="button"
+                    class="o_number_new_msg badge rounded-pill"
+                    filter-key="filterPending"
+                    t-on-click="onFilter"
+                    t-attf-class="{{state.filterPending ? 'opacity-100' : 'opacity-50'}}"
+                    title="Filter by unanswered">
+                    <t t-out="state.countNewMsg" />
+                </a>
+            </div>
+            <div class="flex-grow-1 d-flex flex-column overflow-auto" t-if="state.isChatFiltering">
+                <t t-set="index" t-value="0" />
+                <t t-foreach="state.chatsFiltered" t-as="type" t-key="type.name">
+                    <div class="acrux_group_0">
+                        <span t-out="type.name"/>
+                        <div class="cursor-pointer overflow-hidden">
+                            <i class="fa fa-sm fa-chevron-down" title="Show/Hide"/>
+                        </div>
+                    </div>
+                    <t t-foreach="type.values" t-as="group" t-key="group.name">
+                        <div class="acrux_group_1">
+                            <span t-out="group.name"/>
+                            <div class="cursor-pointer overflow-hidden">
+                                <i class="fa fa-sm fa-chevron-down" title="Show/Hide"/>
+                            </div>
+                        </div>
+                        <t t-foreach="group.values" t-as="conv" t-key="index">
+                            <ConversationCard conversation="conv" />
+                            <t t-set="index" t-value="index+1" />
+                        </t>
+                    </t>
+                </t>
+            </div>
+            <div class="flex-grow-1 d-flex flex-column overflow-hidden o_chatlist w-100" t-else="">
+                <div class="d-flex flex-column overflow-auto w-100 flex-grow-1 flex-shrink-1 flex-basis-0">
+                    <t t-foreach="currentConversations" t-as="conv" t-key="conv.id">
+                        <Conversation selectedConversation="props.selectedConversation" conversation="conv" />
+                    </t>
+                </div>
+                <ChatroomHeader className="'o_chatroom_header_alt w-100'">
+                    <div class="cursor-pointer overflow-hidden" t-on-click="onToggleShowWaitingHeader">
+                        <Transition visible="state.showWaitingHeader" name="'o-fade'" leaveDuration="200">
+                            <span>Waiting</span>
+                        </Transition>
+                        <i class="fa fa-sm fa-chevron-down" title="Waiting"/>
+                    </div>
+                </ChatroomHeader>
+                <div class="d-flex flex-column overflow-auto w-100 flex-grow-1 flex-shrink-1 flex-basis-0">
+                    <t t-foreach="waintingConversations" t-as="conv" t-key="conv.id">
+                        <Conversation selectedConversation="props.selectedConversation" conversation="conv" />
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

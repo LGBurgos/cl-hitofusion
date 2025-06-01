@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.Product" owl="1" >
+        <div class="acrux_Product" t-att-title="props.product.displayName" t-att-data-id="props.product.id" t-att-data-name="props.product.displayName">
+            <div class="o_product_data">
+                <div class="o_product_image" >
+                    <img t-attf-src="/web/image?model=product.product&amp;field=image_128&amp;id=#{props.product.id}&amp;unique=#{props.product.uniqueHashImage}" />
+                </div>
+                <div class="oe_product_details" t-if="props.product.showProductText" >
+                    <t t-set="prod_name" t-value="props.product.displayName.replace('[' + props.product.defaultCode + '] ', '')"/>
+                    <div class="o_product_name" >
+                        <span><t t-esc="prod_name" /></span>
+                    </div>
+                    <ul>
+                        <li>
+                            <t t-if="props.product.lstPrice or props.product.qtyAvailable">
+                                <span t-if="props.product.lstPrice" class="o_field_monetary o_field_number o_field_widget" name="lst_price">
+                                    <t t-esc="formatPrice(props.product.lstPrice)" />
+                                </span>
+                                <t t-if="props.product.type == 'product'">
+                                    <t t-if="props.product.qtyAvailable > 0.0"><t t-set="fcolor" t-value="'text-muted'"/></t>
+                                    <t t-else=""><t t-set="fcolor" t-value="'acrux_red_text'"/></t>
+                                    <span t-att-class="fcolor">
+                                        (<t t-esc="props.product.qtyAvailable"/>
+                                        <span t-if="props.product.uom.id" t-esc="props.product.uom.name.substring(0, 4)" style="margin-left: 3px;"/>)
+                                    </span>
+                                </t>
+                            </t>
+                        </li>
+                        <li style="color: #858585;">
+                            <span t-if="props.product.defaultCode">
+                                <t t-esc="props.product.defaultCode"/>
+                            </span>
+                            <span t-else="" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product_options_btn" t-if="props.product.showOptions">
+                <button class="btn btn-sm text-primary fa fa-telegram acrux-product-send-btn"
+                    type="button" t-on-click="productOption" title="Send" />
+            </div>
+        </div>
+    </t>
+
+</templates>

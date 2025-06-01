@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.AudioPlayer" owl="1">
+        <div class="o_AudioPlayer">
+            <audio t-attf-src="{{props.audio.src}}" controls="true"
+                controlsList="nodownload" preload="auto" class="o_hidden"
+                t-if="props.audio.src"
+                t-on-loadeddata="onLoadData"
+                t-on-error="onError"
+                t-on-timeupdate="onTimeUpdate"
+                t-on-ended="onEnded"
+                t-ref="audioRef" />
+            <div class="o_acrux_audio_player"
+                t-attf-class="{{ state.show ? '': 'd-none' }}">
+                <t t-if="state.error">
+                    Audio not found
+                </t>
+                <t t-else="">
+                    <div class="play" t-on-click="onPlayPause">
+                        <a href="javascript:void(0);">
+                            <t t-if="this.state.paused">
+                                ▶
+                            </t>
+                            <t t-else="">
+                                ⏸️
+                            </t>
+                        </a>
+                    </div>
+                    <div class="progress" t-on-click="changeProgress"
+                        t-ref="progressRef">
+                        <div class="playback" t-ref="playbackRef" />
+                    </div>
+                    <div class="download" t-on-click="onDownload">
+                        <i role="img" class="fa fa-download fa-fw" />
+                    </div>
+                    <div class="time" t-esc="state.time" />
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>

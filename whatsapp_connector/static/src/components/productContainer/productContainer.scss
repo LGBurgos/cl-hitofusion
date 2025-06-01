@@ -1,0 +1,28 @@
+
+.acrux_ProductContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: $fondo_oscuro;
+
+    .o_product_header {
+        background: transparent;
+        border: 0;
+        .o_ChatSearch {
+            max-width: 214px;
+        }
+    }
+
+    .o_acrux_chat_product_items {
+        display: flex;
+        flex: 1 1 auto;
+        overflow: auto;
+        padding: 5px 0 0 5px;
+        justify-content: flex-start;
+        align-content: flex-start;
+        flex-flow: row wrap;
+
+        @media (max-width: 768px) {
+            padding: 0;
+        }
+    }
+}

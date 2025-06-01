@@ -1,0 +1,27 @@
+
+.o_ChatterChatroom {
+    
+    max-height: 50vh;
+    border: 1px solid $o-border-color;
+
+    .o_ConversationThread {
+        max-height: 50vh
+    }
+    .acrux_close_conv {
+        display: none;
+    }
+}
+
+@media (max-width: 1940px) {
+    .o_FormRenderer_chatterContainer.o-aside {
+        .o_ChatterChatroom {
+            max-width: 530px;
+        }
+        .o_ChatterTopbar_buttonScheduleActivity,
+        .o_ChatterTopbar_buttonChatroom {
+            span {
+                display: none;
+            }
+        }
+    }
+}

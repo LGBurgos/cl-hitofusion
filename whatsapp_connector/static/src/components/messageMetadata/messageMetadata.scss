@@ -1,0 +1,96 @@
+
+.o_MessageMetadata {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    font-size: 13.6px;
+    line-height: 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    background-color: #e9ede9;
+    
+    .acrux_metadata_media {
+        position: relative;
+        flex: 0 0 auto;
+        width: 90px;
+        min-width: 90px;
+        height: 90px;
+        min-height: 90px;
+        object-fit: cover;
+        
+        img {
+            flex: 0 0 auto;
+            width: 90px;
+            min-width: 90px;
+            height: 90px;
+            min-height: 90px;
+            object-fit: cover;
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .play-button:before {
+            content: "";
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 20px 0 20px 30px;
+            border-color: transparent transparent transparent #fff;
+        }
+    }
+    
+    .acrux_metadata_media.status_audio {
+        width: 280px;
+        max-width: 100%;
+        height: auto;
+        min-height: auto;
+    }
+    
+    .acrux_metadata_content {
+        box-sizing: border-box;
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        justify-content: center;
+        max-height: 90px;
+        overflow: hidden;
+        line-height: 19px;
+        padding-left: 4px;
+    }
+
+    .acrux_metadata_title {
+        flex: 0 1 auto;
+        overflow: hidden;
+        line-height: 20px;
+        text-overflow: ellipsis;
+    }
+    
+    .acrux_metadata_body {
+        overflow: hidden;
+        font-size: 12px;
+        text-overflow: ellipsis;
+        flex: 0 999 auto;
+    }
+
+    .acrux_metadata_url {
+        padding-top: 1px;
+        flex: none;
+        overflow: hidden;
+        font-size: 12px;
+        text-overflow: ellipsis;
+    }
+}

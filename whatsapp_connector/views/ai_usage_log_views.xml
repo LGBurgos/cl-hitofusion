@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_whatsapp_connector_ai_usage_log_tree">
+        <field name="name">acrux.chat.ai.usage.log.tree</field>
+        <field name="model">acrux.chat.ai.usage.log</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="company_id" invisible="1" />
+                <field name="create_date" />
+                <field name="user_id" />
+                <field name="ai_config_id" />
+                <field name="provider" optional="hide" />
+                <field name="operation_key" optional="hide" />
+                <field name="ai_model" />
+                <field name="conversation_id" />
+                <field name="sent_tokens" />
+                <field name="response_tokens" />
+                <field name="total_tokens" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_ai_usage_log_pivot">
+        <field name="name">acrux.chat.ai.usage.log.pivot</field>
+        <field name="model">acrux.chat.ai.usage.log</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="create_date" type="row" />
+                <field name="user_id" type="row" />
+                <field name="provider" type="row" />
+                <field name="operation_key" type="row" />
+                <field name="ai_model" type="row" />
+                <field name="create_date" type="col" interval="month" />
+                <field name="sent_tokens" type="measure" />
+                <field name="response_tokens" type="measure" />
+                <field name="total_tokens" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_whatsapp_connector_ai_usage_log_search">
+        <field name="name">acrux.chat.ai.usage.log.search</field>
+        <field name="model">acrux.chat.ai.usage.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="create_date" />
+                <field name="user_id" />
+                <field name="ai_config_id" />
+                <field name="provider" />
+                <field name="operation_key" />
+                <field name="ai_model" />
+                <field name="conversation_id" />
+                <separator />
+                <filter string="This Month" name="this_month"
+                    domain="[('create_date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]" />
+                <filter string="Last Month" name="last_month"
+                    domain="['&amp;', ('create_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%%Y-%%m-01')), ('create_date', '&lt;', context_today().strftime('%%Y-%%m-01'))]" />
+                <filter string="Last 6 Months" name="6months"
+                    domain="[('create_date','&gt;=',(context_today()-relativedelta(months=5)).strftime('%Y-%m-01'))]" />
+                <group string="Group by">
+                    <filter name="group_by_create_date" string="Created on" context="{'group_by':'create_date'}" />
+                    <filter name="group_by_user" string="User" context="{'group_by':'user_id'}" />
+                    <filter name="group_by_ai_config_id" string="AI Config" context="{'group_by':'ai_config_id'}" />
+                    <filter name="group_by_provider" string="Provider" context="{'group_by':'provider'}" />
+                    <filter name="group_by_operation_key" string="Operation" context="{'group_by':'operation_key'}" />
+                    <filter name="group_by_ai_model" string="AI Model" context="{'group_by':'ai_model'}" />
+                    <filter name="group_by_conversation_id" string="Conversation" context="{'group_by':'conversation_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="view_whatsapp_connector_ai_usage_log_action">
+        <field name="name">AI Usage Log</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">acrux.chat.ai.usage.log</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>
+
+</odoo>

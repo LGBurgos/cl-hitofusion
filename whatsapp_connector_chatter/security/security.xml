@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="category_chat_show_chatter" model="ir.module.category">
+            <field name="name">Chatter</field>
+            <field name="sequence">5</field>
+            <field name="parent_id" ref="whatsapp_connector.category_chatroom"/>
+        </record>
+
+        <record id="group_chat_in_chatter" model="res.groups">
+            <field name="name">Show Chatroom Chatter</field>
+            <field name="category_id" ref="category_chat_show_chatter"/>
+        </record>
+
+        <function model="res.groups" name="add_all_users_to_group"/>
+
+    </data>
+
+</odoo>

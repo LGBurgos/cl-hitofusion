@@ -1,0 +1,31 @@
+@mixin grow_ai_form {
+    .o_form_sheet_bg {
+        >.o_form_sheet {
+            >.o_group {
+                >.o_inner_group {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+// pequeño
+.o_sidebar_right.col-lg-3,
+.o_sidebar_right.col-xl-3 {
+    .o_AiIntefaceForm {
+        @media (min-width: 992px) and (max-width: 1533px) {
+            @include grow_ai_form;
+        }
+    }
+}
+
+// mediano
+.o_sidebar_right.col-lg-5,
+.o_sidebar_right.col-xl-5 {
+    .o_AiIntefaceForm {
+        @media (min-width: 992px) and (max-width: 1199px) {
+            @include grow_ai_form;
+        }
+    }
+}

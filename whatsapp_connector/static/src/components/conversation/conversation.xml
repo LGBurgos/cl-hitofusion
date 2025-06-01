@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.Conversation" owl="1">
+        <div class="o_Conversation" t-att-data-id="props.conversation.id"
+            t-attf-style="border-color: {{props.conversation.borderColor == '#FFFFFF' ? 'transparent': props.conversation.borderColor}}"
+            t-attf-class="acrux_chat_color {{ isSelected ? 'active': '' }}" t-on-click="onSelect">
+            <div class="acrux_image_perfil">
+                <img t-att-src="props.conversation.imageUrl" alt="perfil"/>
+                <div t-attf-class="{{props.conversation.getIconClass()}}" t-if="props.conversation.showIcon" />
+            </div>
+            <div class="acrux_chat_conversation_info">
+                <div class="d-flex" style="margin-bottom: -3px;">
+                    <div class="o_conversation_name">
+                        <span t-attf-title="{{props.conversation.name}} {{props.conversation.numberFormat}}">
+                            <t t-esc="props.conversation.name" />
+                        </span>
+                    </div>
+                    <div class="acrux_chat_conversation_tools text-end">
+                        <t t-if="props.conversation.assigned">
+                            <i class="fa fa-exclamation-circle text-danger mx-1 o_acrux_assigned_conv" style="font-size: 1.3em;" />
+                        </t>
+                        <span class="o_mail_sidebar_needaction o_number_new_msg mx-1 badge rounded-pill"
+                              t-if="props.conversation.countNewMsg" >
+                            <t t-esc="props.conversation.countNewMsg" />
+                        </span>
+                        <button class="btn acrux_close_conv" type="button" t-if="!props.conversation.isCurrent() and ! props.hideClose"
+                            title="Hide conversation." t-on-click="onClose">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="o_acrux_agent acrux_hide_on_modeSimple" t-if="!props.conversation.isMine() and props.conversation.agent.id">
+                    <i class="fa fa-user-circle" style="margin-right: 0.4rem;"/>
+                    <t t-esc="props.conversation.agent.name" />
+                </div>
+                <div class="acrux_hide_on_modeSimple d-flex flex-wrap">
+                    <div class="o_field_many2manytags o_field_widget acrux_chat_conversation_tag" t-if="props.conversation.tagIds">
+                        <t t-foreach="props.conversation.tagIds" t-as="tag" t-key="tag.id">
+                            <div t-attf-class="badge rounded-pill o_tag d-inline-flex align-items-center o_tag_color_{{tag.color}}">
+                                <span class="o_badge_text" t-esc="tag.name" />
+                            </div>
+                        </t>
+                    </div>
+                    <span t-if="props.conversation.note" class="acrux_conversation_note px-1"
+                        t-esc="props.conversation.note" t-att-title="props.conversation.note" />
+                </div>
+                <t t-if="props.conversation.lastMessage">
+                    <t t-set="message" t-value="props.conversation.lastMessage" />
+                    <t t-call ="chatroom.MessageSummary" />
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>

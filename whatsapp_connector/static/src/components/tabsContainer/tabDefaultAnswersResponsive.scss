@@ -1,0 +1,42 @@
+// alargar las respuestas predeterminadas
+@mixin grow_default_answer {
+    .o_table_default {
+        >div {
+            flex-basis: 100%;
+        }
+    }
+}
+
+// pequeño
+.o_sidebar_right.col-lg-3,
+.o_sidebar_right.col-xl-3 {
+    .o_TabsContainer {
+        @media (min-width: 992px) and (max-width: 1533px) {
+            @include grow_default_answer;
+        }
+    }
+}
+
+// mediano
+.o_sidebar_right.col-lg-5,
+.o_sidebar_right.col-xl-5 {
+    .o_TabsContainer {
+        @media (min-width: 992px) and (max-width: 1199px) {
+            @include grow_default_answer;
+        }
+    }
+}
+
+// grande
+.o_sidebar_right.col-lg-7,
+.o_sidebar_right.col-xl-7 {
+    .o_TabsContainer {
+        @media (min-width: 1534px) {
+            .o_table_default {
+                >div {
+                    flex-basis: 25%; // achicar las respustas para que quepan mas
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.ConversationName" owl="1">
+        <div>
+            <t t-if="props.selectedConversation">
+                <t t-esc="props.selectedConversation.name" />
+                <t t-if="props.selectedConversation.numberFormat">
+                    (<t t-esc="props.selectedConversation.numberFormat" />)
+                </t>
+                <t t-if="props.selectedConversation.showIcon">
+                    <div t-attf-class="{{props.selectedConversation.getIconClass()}} d-lg-none" />
+                </t>
+            </t>
+        </div>
+    </t>
+
+</templates>

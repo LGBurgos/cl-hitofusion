@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.ProductContainer" owl="1">
+        <div class="acrux_ProductContainer" t-attf-class="{{ props.className }}">
+            <ChatroomHeader className="'o_product_header'">
+                <ChatSearch placeHolder="placeHolder" searchEvent="'productSearch'" />
+            </ChatroomHeader>
+            <div class="o_acrux_chat_product_items">
+                <t t-foreach="state.products" t-as="product" t-key="product.id">
+                    <Product product="product" />
+                </t>
+            </div>
+        </div>
+    </t>
+
+
+</templates>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.Toolbox" owl="1">
+        <div class="acrux_Toolbox d-flex flex-column w-100 mb-1"
+            t-attf-class="{{ props.selectedConversation ? '': 'd-none' }}"
+            t-ref="toolboxRef">
+            <div class="o_chat_toolbox_attachements overflow-auto"
+                t-attf-class="{{ conversationMine }}">
+                <AttachmentList
+                    attachments="state.attachments"
+                    unlinkAttachment.bind="unlinkAttachment"
+                    imagesHeight="150"/>
+            </div>
+            <div class="o_chat_toolbox_message_quote" t-if="state.message">
+                <div class="o_chat_toolbox_message_quote_content">
+                    <Message message="state.message" noAction="true" />
+                </div>
+                <span class="o_chat_toolbox_close_message" t-on-click="() => this.env.chatBus.trigger('quoteMessage', null)">
+                    <svg viewBox="0 0 24 24" width="24" height="24" class="">
+                        <path fill="currentColor" d="M19.1 17.2l-5.3-5.3 5.3-5.3-1.8-1.8-5.3 5.4-5.3-5.3-1.8 1.7 5.3 5.3-5.3 5.3L6.7 19l5.3-5.3 5.3 5.3 1.8-1.8z" />
+                    </svg>
+                </span>
+            </div>
+            <Transition visible="state.showTraductor" name="'o-fade'" leaveDuration="200">
+                <div class="o_chat_toolbox_input d-flex align-items-center mx-2 my-1"
+                    t-attf-class="{{ conversationMine }} {{ allowTranslate }}"
+                    id="o_chat_translate_container">
+                    <textarea class="o_input o_chat_toolbox_text_field p-0 o_chat_toolbox_text_translated"
+                        placeholder="Translate text..." t-ref="inputLangRef"
+                        t-on-paste="onPaste"
+                        t-on-keypress="onKeypress"
+                        t-on-keydown="onKeydown"
+                        t-on-input="onInput" />
+                    <div class="o_chat_toolbox_lang_selector me-1"
+                        t-attf-class="{{ conversationMine }} {{ hasManyLangs }}" t-ref="langSelectorRef">
+                        <SelectMenu t-props="langProps" />
+                    </div>
+                    <button class="o_chat_button_translate o_chat_option_button"
+                        t-on-click="onTranslate" type="button"
+                        t-attf-class="{{ allowTranslate }}"
+                        title="Translate text">
+                        <i class="fa fa-language"/>
+                    </button>
+                </div>
+            </Transition>
+            <div class="o_chat_toolbox_button_box d-flex align-items-center mx-2 my-1"
+                id="o_chat_toolbox_button_box">
+                <div class="o_chat_toolbox_message_signing me-1 ms-2"
+                    t-attf-class="{{ conversationMine }} {{ allowSign }}"
+                    title="Sign">
+                    <CheckBox onChange.bind="updateSigning" value="props.user.signingActive"
+                        className="'o_field_boolean o_boolean_toggle form-switch d-inline-block'" />
+                </div>
+                <button class="o_chat_button_translate o_chat_option_button"
+                    t-on-click="onToggleTraductor" type="button"
+                    t-attf-class="{{ conversationMine }} {{ allowTranslate }} {{state.showTraductor and 'text-success' or ''}}"
+                    title="Show traductor">
+                    <i class="fa fa-language"/>
+                </button>
+                <!-- right -->
+                <div class="o_chat_option_button me-1 ms-auto o_chat_activity_btn"
+                    t-attf-class="{{ conversationMine }}" t-if="props.selectedConversation">
+                    <ActivityButton record="props.selectedConversation" />
+                </div>
+               <button class="o_chat_option_button me-1" type="button"
+                    t-attf-class="{{ conversationMine }}"
+                    tab-key="tab_conv_info"
+                    t-on-click="openTab"
+                    title="Open info tab">
+                    <i class="fa fa-info-circle"/>
+                </button>
+               <button class="o_chat_option_button me-1" type="button"
+                    t-attf-class="{{ conversationMine }}"
+                    tab-key="tab_partner"
+                    t-on-click="openTab"
+                    title="Open partner tab">
+                    <i class="fa fa-vcard-o"/>
+                </button>
+                <!--<span class="me-1 mb-1">|</span>-->
+                <button class="o_chat_button_tmpl o_chat_option_button" type="button"
+                    t-attf-class="{{ conversationMine }}"
+                    t-on-click="sendWizard"
+                    title="Send a Template">
+                    <i class="fa fa-copy"/>
+                </button>
+                <button class="o_chat_button_emoji o_chat_option_button" type="button"
+                    t-attf-class="{{ conversationMine }}"
+                    t-on-click="toggleEmojis"
+                    t-ref="emojisBtnRef"
+                    title="Add Emojis">
+                    <i class="fa fa-smile-o"/>
+                </button>
+                <FileUploader multiUpload="true"
+                    fileUploadClass="conversationMine"
+                    onUploaded="(data) => attachmentUploader.uploadData(data)">
+                    <t t-set-slot="toggler">
+                        <button class="o_chat_button_add_attachment o_chat_option_button" type="button"
+                            t-attf-class="{{ conversationMine }}" t-ref="attachBtnRef"
+                            title="Attach files">
+                            <i class="fa fa-paperclip"/>
+                        </button>
+                    </t>
+                </FileUploader>
+                <!--<span class="mx-1 mb-1">|</span>-->
+                <button class="o_chat_button_tmpl o_chat_option_button" type="button"
+                    t-attf-class="{{ conversationMine }}"
+                    t-on-click="delegateConversation"
+                    title="Set your taken conversation to new">
+                    <i class="fa fa-chain-broken"/>
+                </button>
+                <button class="btn btn-sm btn-success o_chat_toolbox_write p-2 mx-2 mb-1" type="button"
+                    t-attf-class="{{ conversationNotMine }}"
+                    t-on-click="blockClient">
+                    Attend
+                </button>
+                <button class="btn btn-danger btn-link o_chat_toolbox_done mx-1" type="button"
+                    t-attf-class="{{ conversationMine }}" title="Close"
+                    t-on-click="releaseClient"
+                    t-ref="releaseBtnRef">
+                    <i class="fa fa-sign-out"/>
+                </button>
+            </div>
+            <div class="o_chat_toolbox_input d-flex align-items-center mx-2 my-1"
+                t-attf-class="{{ conversationMine }}"
+                id="o_chat_toolbox_input">
+                <textarea class="o_input o_chat_toolbox_text_field p-0"
+                    placeholder="Write Something..." t-ref="inputRef"
+                    t-on-paste="onPaste"
+                    t-on-keypress="onKeypress"
+                    t-on-keydown="onKeydown"
+                    t-on-input="onInput" />
+                <button class="o_chat_toolbox_send"
+                    t-on-click="sendMessage" type="button"
+                    t-ref="sendBtnRef">
+                    <i class="fa fa-paper-plane-o"/>
+                </button>
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.ConversationCard" owl="1">
+        <div class="o_ConversationCard" t-att-title="props.conversation.name"
+            t-attf-class="{{ props.className }}"
+            t-attf-style="box-shadow: inset 4px 0 0 0 {{props.conversation.borderColor == '#FFFFFF' ? 'transparent': props.conversation.borderColor}}"
+            t-on-click="onClick">
+            <div class="o_conv_image" >
+                <img t-att-src="props.conversation.imageUrl" />
+                <t t-if="props.conversation.showIcon">
+                    <div t-attf-class="{{props.conversation.getIconClass()}}" />
+                </t>
+            </div>
+            <div class="o_conv_details" >
+                <strong class="o_conv_name" >
+                    <span><t t-esc="props.conversation.name" /></span>
+                </strong>
+                <ul>
+                    <li>
+                        <t t-esc="props.conversation.numberFormat" />
+                    </li>
+                    <li class="m-0 acrux_hide_on_modeSimple" >
+                        <span>Agent:
+                            <t t-if="props.conversation.agent.id" t-esc="props.conversation.agent.name" />
+                        </span>
+                    </li>
+                    <li class="text-muted small acrux_hide_on_modeSimple">
+                        <t t-esc="props.conversation.connector.name" />
+                    </li>
+                    <li class="text-muted small" t-if="props.conversation.freeText">
+                        <div class="o_freeText"><t t-esc="props.conversation.freeText" /></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </t>
+
+</templates>

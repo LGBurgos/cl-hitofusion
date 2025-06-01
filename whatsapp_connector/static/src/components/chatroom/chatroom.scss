@@ -1,0 +1,119 @@
+.o_Chatroom {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    border-top: 1px solid $acrux_header_border_color;
+
+    .o_sidebar {
+        height: 100%;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    >div[class*="col-xl-"],
+    >div[class*="col-lg-"],
+    >div[class*="col-md-"] {
+        @extend %-tab-transition;
+    }
+
+    .o_sidebar_content {
+        background-color: $acrux_content_background_color;
+
+        .o_ChatroomHeader {
+            background-color: $acrux_header_background_color;
+            border-bottom: 1px solid $acrux_header_border_color;
+            border-left: 1px solid $acrux_header_border_color;
+            text-align: center;
+        }
+    }
+
+    .o_sidebar_right {
+        background-color: $acrux_sidebar_right_background_color;
+
+        .o_ChatroomHeader {
+            background-color: $acrux_header_background_color;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+    }
+
+    .btn-sm,
+    .btn-group-sm>.btn {
+        border-radius: 3px;
+    }
+
+    .o_tabs_resize {
+        z-index: 10;
+        display: flex;
+        justify-content: flex-end;
+
+        i {
+            margin-bottom: -32px;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 8px 14px 0 0;
+        }
+    }
+
+    .o_chatroom_header_alt {
+        display: contents;
+        color: cornflowerblue;
+
+        div {
+            border-top: 4px solid cornflowerblue;
+        }
+
+        div:has(>span) {
+            height: 3em;
+        }
+
+        i {
+            float: right;
+            margin-top: -12px;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+    }
+
+    .navbar-toggler-left,
+    .navbar-toggler-right {
+        cursor: pointer;
+        font-size: 2rem;
+        line-height: 1;
+    }
+
+    .navbar-toggler-left {
+        padding: 0 0.75rem 0 0.25rem;
+    }
+
+    .navbar-toggler-right {
+        padding: 0 0.25rem 0 0.75rem;
+    }
+
+    .o_number_new_msg {
+        background: #00A09D;
+        color: white;
+        vertical-align: top;
+        font-size: 0.8em;
+        padding: 3px 7px;
+    }
+}
+
+.o_web_client.o_touch_device .o_Chatroom {
+
+    .navbar-toggler-left,
+    .navbar-toggler-right {
+        font-size: 2rem;
+    }
+
+    .navbar-toggler-left {
+        padding: 0 0.95rem 0 0.25rem;
+    }
+
+    .navbar-toggler-right {
+        padding: 0 0.25rem 0 0.95rem;
+    }
+}

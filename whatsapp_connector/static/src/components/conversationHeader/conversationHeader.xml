@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.ConversationHeader" owl="1">
+        <div class="o_ConversationHeader">
+            <t t-if="props.selectedConversation" >
+                <ConversationName selectedConversation="props.selectedConversation" />
+            </t>
+            <t t-else="">
+                Select a conversation to begin to chat
+            </t>
+        </div>
+    </t>
+
+</templates>

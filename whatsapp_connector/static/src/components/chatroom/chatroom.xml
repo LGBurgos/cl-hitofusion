@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.Chatroom" owl="1">
+        <div class="o_Chatroom" t-ref="chatroomRef">
+            <div class="o_sidebar o_sidebar_left col-12 col-md-4 col-lg-3 col-xl-3 col-xxl-3"
+                t-attf-class="{{ state.currentMobileSide and firtSideMobile }}">
+                <ConversationList conversations="state.conversations"
+                    selectedConversation="state.selectedConversation"
+                    mobileNavigate="() => this.env.chatBus.trigger('mobileNavigate', 'middleSide')" />
+            </div>
+            <div class="o_sidebar o_sidebar_content col-12 col-md-8"
+                t-attf-class="col-lg-{{4 + chatroomTabSize}} col-xl-{{4 + chatroomTabSize}} col-xxl-{{5 + chatroomTabSize}}
+                    {{ state.currentMobileSide and middleSideMobile }}">
+                <ChatroomHeader>
+                    <i class="navbar-toggler-left d-md-none text-primary fa fa-chevron-circle-left"
+                        t-on-click="() => this.env.chatBus.trigger('mobileNavigate', 'firstSide')" />
+                    <ConversationHeader selectedConversation="state.selectedConversation" />
+                    <i class="navbar-toggler-right d-lg-none text-primary fa fa-chevron-circle-right"
+                        t-on-click="() => this.env.chatBus.trigger('mobileNavigate', 'lastSide')" />
+                    <div class="d-lg-flex d-none">
+                      <button class="btn left-btn" t-att-title="'Reduce'"
+                        t-on-click="changeTabSize" t-if="chatroomTabSize &gt; -2">
+                          <i class="fa fa-arrow-left" />
+                      </button>
+                      <button class="btn right-btn" t-att-title="'Increase'"
+                          t-on-click="changeTabSize" t-if="chatroomTabSize &lt; 2">
+                          <i class="fa fa-arrow-right" />
+                      </button>
+                    </div>
+                </ChatroomHeader>
+                <ConversationThread selectedConversation="state.selectedConversation" />
+                <Toolbox selectedConversation="state.selectedConversation"
+                    user="state.user" />
+            </div>
+            <div class="o_sidebar o_sidebar_right"
+                t-attf-class="col-lg-{{5 - chatroomTabSize}} col-xl-{{5 - chatroomTabSize}} col-xxl-{{4 - chatroomTabSize}}
+                    {{ state.currentMobileSide and lastSideMobile }}">
+                <ChatroomHeader className="'d-lg-none'">
+                    <i class="navbar-toggler-left text-primary fa fa-chevron-circle-left"
+                        t-on-click="() => this.env.chatBus.trigger('mobileNavigate', 'middleSide')" />
+                    <div class="mx-3" >
+                        <ConversationName selectedConversation="state.selectedConversation" />
+                    </div>
+                </ChatroomHeader>
+                <TabsContainer selectedConversation="state.selectedConversation"
+                    defaultAnswers="defaultAnswers"
+                    conversationUsedFields="conversationUsedFields"
+                    conversationInfoForm="conversationInfoForm"
+                    conversationKanban="conversationKanban"
+                    aiIntefaceForm="aiIntefaceForm"
+                    tabSelected="state.tabSelected"
+                    user="state.user"
+                    t-if="state.renderForms" />
+            </div>
+            <LoadingIndicator />
+        </div>
+    </t>
+
+</templates>

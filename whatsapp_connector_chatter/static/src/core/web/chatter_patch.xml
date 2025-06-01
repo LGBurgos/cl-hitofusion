@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="whatsapp.Chatter" t-inherit="mail.Chatter" t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('o-mail-Chatter-sendMessage')]" position="attributes">
+            <attribute name="t-att-class">{
+                'btn-primary': state.composerType === 'message',
+                'btn-secondary': state.composerType !== 'message',
+                'active': state.composerType === 'message',
+                'my-2': !props.compactHeight
+            }</attribute>
+        </xpath>
+
+        <xpath expr="//*[contains(@class, 'o-mail-Chatter-activity')]" position="before">
+            <button class="btn text-nowrap me-1" data-hotkey="shift+w+2"
+                t-att-class="{
+                    'btn-primary': state.composerType === 'chatroom',
+                    'btn-secondary': state.composerType !== 'chatroom',
+                    'active': state.composerType === 'chatroom',
+                    'my-2': !props.compactHeight,
+                }"
+                t-att-disabled="!state.thread.hasWriteAccess"
+                t-if="!isInAcruxChatroom and isChatroomInstalled and chatroomInChatter"
+                t-on-click="() => this.toggleComposer('chatroom')">
+                <i class="fa fa-comments me-1" />
+                <span>ChatRoom</span>
+            </button>
+        </xpath>
+        
+        <xpath expr="//t[@t-if='state.composerType']/SuggestedRecipientsList" position="attributes">
+            <attribute name="t-if">props.hasFollowers and state.composerType === 'message'</attribute>
+        </xpath>
+        
+        <xpath expr="//t[@t-if='state.composerType']/Composer" position="attributes">
+            <attribute name="t-if">['message', 'note'].includes(state.composerType)</attribute>
+        </xpath>
+        <xpath expr="//t[@t-if='state.composerType']/Composer" position="after">
+            <ChatterChatroom
+                thread="state.thread"
+                webRecord="props.webRecord"
+                t-if="state.composerType === 'chatroom'" />
+        </xpath>
+        
+    </t>
+</templates>

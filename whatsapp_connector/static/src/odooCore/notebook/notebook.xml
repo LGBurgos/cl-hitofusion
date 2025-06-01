@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatroom.Notebook" t-inherit="web.Notebook" t-inherit-mode="primary" owl="1">
+        <xpath expr="//div[hasclass('o_notebook_headers')]/ul/li/a" position="replace">
+            <a class="nav-link" t-att-class="{ active: navItem[0] === state.currentPage, 'p-3': props.orientation === 'vertical'}"
+                t-att-name="navItem[1].name" t-on-click.prevent="() => state.currentPage = navItem[0]"
+                href="#" role="tab" tabindex="-1"
+                t-attf-title="#{navItem[1].title}">
+                <t t-if="navItem[1].icon">
+                    <i t-attf-class="{{navItem[1].icon}}" />
+                </t>
+                <t t-if="navItem[1].iconHtml" t-out="navItem[1].iconHtml" />
+                <span t-esc="navItem[1].title"
+                    t-if="!navItem[1].icon and !navItem[1].iconHtml" />
+            </a>
+        </xpath>
+    </t>
+
+</templates>
