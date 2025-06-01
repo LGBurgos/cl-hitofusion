@@ -1,24 +1,24 @@
 [submodule "ntsystemwork/nt-addons"]
 	path = ntsystemwork/nt-addons
-	url = git@github.com:ntsystemwork/nt-addons.git
+	url = git@github.com:LGBurgos/nt-addons.git
 	branch = 17.0
 [submodule "ntsystemwork/l10n_ar-hitofusion"]
 	path = ntsystemwork/l10n_ar-hitofusion
-	url = git@github.com:ntsystemwork/l10n_ar-hitofusion.git
+	url = git@github.com:LGBurgos/l10n_ar-hitofusion.git
 	branch = 17.0
 [submodule "ntsystemwork/hito-ingadhoc-account-payment"]
 	path = ntsystemwork/hito-ingadhoc-account-payment
-	url = git@github.com:ntsystemwork/hito-ingadhoc-account-payment.git
+	url = git@github.com:LGBurgos/hito-ingadhoc-account-payment.git
 	branch = 17.0
 [submodule "ntsystemwork/hito-ingadhoc-account-financial-tools"]
 	path = ntsystemwork/hito-ingadhoc-account-financial-tools
-	url = git@github.com:ntsystemwork/hito-ingadhoc-account-financial-tools.git
+	url = git@github.com:LGBurgos/hito-ingadhoc-account-financial-tools.git
 	branch = 17.0
 [submodule "ntsystemwork/hito-inghadhoc-odoo-argentina"]
 	path = ntsystemwork/hito-inghadhoc-odoo-argentina
-	url = git@github.com:ntsystemwork/hito-inghadhoc-odoo-argentina.git
+	url = git@github.com:LGBurgos/hito-inghadhoc-odoo-argentina.git
 	branch = 17.0
 [submodule "ntsystemwork/hito-ingadhoc-odoo-argentina-ee"]
 	path = ntsystemwork/hito-ingadhoc-odoo-argentina-ee
-	url = git@github.com:ntsystemwork/hito-ingadhoc-odoo-argentina-ee.git
+	url = git@github.com:LGBurgos/hito-ingadhoc-odoo-argentina-ee.git
 	branch = 17.0
